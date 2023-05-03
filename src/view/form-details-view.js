@@ -1,15 +1,13 @@
 import {createElement} from '../render.js';
 
-function createEditFormTemplate() {
-  return `<li class="trip-events__item">
-  <form class="event event--edit" action="#" method="post">
-  </form>
-</li>`;
+function createFormDetailsTemplate() {
+  return `<section class="event__details">
+</section>`;
 }
 
-export default class EditFormView {
+export default class FormDetailsView {
   getTemplate() {
-    return createEditFormTemplate();
+    return createFormDetailsTemplate();
   }
 
   getElement() {
