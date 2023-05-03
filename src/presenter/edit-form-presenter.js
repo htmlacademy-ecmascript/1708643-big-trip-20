@@ -6,8 +6,9 @@ import {render} from '../render.js';
 export default class EditFormPresenter {
   formContainer = new EditFormView();
 
-  constructor({parentContainer}) {
+  constructor({parentContainer, tripPoint}) {
     this.parentContainer = parentContainer;
+    this.tripPoint = tripPoint;
   }
 
   init() {

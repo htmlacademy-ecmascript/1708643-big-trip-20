@@ -14,4 +14,5 @@ function getISODate(str) {
 export {
   getRandomArrayElement,
   getRandomPicture,
-  getISODate};
+  getISODate
+};

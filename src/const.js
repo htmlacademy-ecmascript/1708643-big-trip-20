@@ -7,6 +7,7 @@ const TRIP_TYPES = [
   'flight',
   'check-in',
   'sightseeing',
-  'restaurant'];
+  'restaurant'
+];
 
 export {TRIP_TYPES};

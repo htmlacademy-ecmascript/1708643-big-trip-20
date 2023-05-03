@@ -2,11 +2,13 @@ import TripInfoPresenter from './trip-info-presenter.js';
 import FilterPresenter from './filter-presenter.js';
 import SortPresenter from './sort-presenter.js';
 import ContentPresenter from './content-presenter.js';
+import TripPointsModel from '../model/trip-points-model.js';
 
 export default class MainPresenter {
 
   constructor({parentContainer}) {
     this.parentContainer = parentContainer;
+    this.tripPointsModel = new TripPointsModel();
   }
 
   init() {
@@ -23,7 +25,10 @@ export default class MainPresenter {
     const sortPresenter = new SortPresenter({parentContainer: tripEventsElement});
     sortPresenter.init();
 
-    const contentPresenter = new ContentPresenter({parentContainer: tripEventsElement});
+    const contentPresenter = new ContentPresenter({
+      parentContainer: tripEventsElement,
+      tripPointsModel: this.tripPointsModel
+    });
     contentPresenter.init();
   }
 }
