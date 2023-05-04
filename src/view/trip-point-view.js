@@ -1,9 +1,21 @@
 import {createElement} from '../render.js';
-import {convertToTitleCase, convertKeysToCamelCase} from '../utils.js';
+import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 import {getDestinationById} from '../mock/trip-destination.js';
 
 function createTripPointTemplate(point) {
   const {basePrice, dateFrom, dateTo, destination, isFavorite, offers, type} = convertKeysToCamelCase(point);
+
+  const shortDate = formatDate(dateFrom, 'MMM DD');
+
+  const startDatetime = formatDate(dateFrom, 'YYYY-MM-DDTHH:mm');
+  const [startDate, startTime] = startDatetime.split('T');
+
+  const endDatetime = formatDate(dateTo, 'YYYY-MM-DDTHH:mm');
+  const endTime = endDatetime.split('T')[1];
+
+  const typeName = convertToTitleCase(type);
+
+  const destinationName = getDestinationById(destination).name;
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
@@ -11,16 +23,16 @@ function createTripPointTemplate(point) {
 
   return `<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="2019-03-18">MAR 18</time>
+    <time class="event__date" datetime=${startDate}>${shortDate}</time>
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${convertToTitleCase(type)} ${getDestinationById(destination).name}</h3>
+    <h3 class="event__title">${typeName} ${destinationName}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+        <time class="event__start-time" datetime=${startDatetime}>${startTime}</time>
         &mdash;
-        <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+        <time class="event__end-time" datetime=${endDatetime}>${endTime}</time>
       </p>
       <p class="event__duration">30M</p>
     </div>

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
@@ -34,10 +36,15 @@ function convertKeysToCamelCase(obj) {
   return o;
 }
 
+function formatDate(date, format) {
+  return date ? dayjs(date).format(format).toUpperCase() : '';
+}
+
 export {
   getRandomArrayElement,
   getRandomPicture,
   getISODate,
   convertToTitleCase,
-  convertKeysToCamelCase
+  convertKeysToCamelCase,
+  formatDate
 };
