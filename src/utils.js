@@ -11,11 +11,11 @@ function getISODate(str) {
   return new Date(str).toISOString();
 }
 
-function toTitleCase(str) {
+function convertToTitleCase(str) {
   return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 }
 
-function toCamelCase(str) {
+function convertToCamelCase(str) {
   return str.toLowerCase().replace(/([-_][a-z])/g, (group) =>
     group
       .toUpperCase()
@@ -24,11 +24,11 @@ function toCamelCase(str) {
   );
 }
 
-function keysToCamelCase(obj) {
+function convertKeysToCamelCase(obj) {
   const o = {};
 
   Object.keys(obj).forEach((key) => {
-    o[toCamelCase(key)] = obj[key];
+    o[convertToCamelCase(key)] = obj[key];
   });
 
   return o;
@@ -38,6 +38,6 @@ export {
   getRandomArrayElement,
   getRandomPicture,
   getISODate,
-  toTitleCase,
-  keysToCamelCase
+  convertToTitleCase,
+  convertKeysToCamelCase
 };
