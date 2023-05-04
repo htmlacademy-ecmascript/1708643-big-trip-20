@@ -1,4 +1,5 @@
 import {RenderPosition, render} from '../render.js';
+import {POINT_LIST_RENDER_COUNT} from '../const.js';
 import TripInfoView from './../view/trip-info-view.js';
 import FilterView from './../view/filter-view.js';
 import SortView from './../view/sort-view.js';
@@ -36,7 +37,7 @@ export default class MainPresenter {
     render(new FormDestinationView(), this.formDetailsComponent.getElement());
     render(new FormOffersView(), this.formDetailsComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < POINT_LIST_RENDER_COUNT; i++) {
       render(new TripPointView(), this.contentComponent.getElement());
     }
   }
