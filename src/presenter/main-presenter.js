@@ -1,34 +1,46 @@
-import TripInfoPresenter from './trip-info-presenter.js';
-import FilterPresenter from './filter-presenter.js';
-import SortPresenter from './sort-presenter.js';
-import ContentPresenter from './content-presenter.js';
-import TripPointsModel from '../model/trip-points-model.js';
+import {RenderPosition, render} from '../render.js';
+import TripInfoView from './../view/trip-info-view.js';
+import FilterView from './../view/filter-view.js';
+import SortView from './../view/sort-view.js';
+import TripEventsListView from './../view/trip-events-list-view.js';
+import TripPointView from './../view/trip-point-view.js';
+import EditFormView from './../view/edit-form-view.js';
+import FormHeaderView from './../view/form-header-view.js';
+import FormDetailsView from './../view/form-details-view.js';
+import FormDestinationView from './../view/form-destination-view.js';
+import FormOffersView from './../view/form-offers-view.js';
 
 export default class MainPresenter {
+  contentComponent = new TripEventsListView();
+  formComponent = new EditFormView();
+  formDetailsComponent = new FormDetailsView();
 
-  constructor({parentContainer}) {
+  constructor({parentContainer, pointsModel}) {
     this.parentContainer = parentContainer;
-    this.tripPointsModel = new TripPointsModel();
+    this.pointsModel = pointsModel;
   }
 
   init() {
     const tripMainElement = this.parentContainer.querySelector('.trip-main');
     const tripControlsElement = tripMainElement.querySelector('.trip-controls__filters');
     const tripEventsElement = this.parentContainer.querySelector('.trip-events');
+    const formElement = this.formComponent.getElement().querySelector('.event');
 
-    const tripInfoPresenter = new TripInfoPresenter({parentContainer: tripMainElement});
-    tripInfoPresenter.init();
+    this.tripPoints = [...this.pointsModel.getPoints()];
 
-    const filterPresenter = new FilterPresenter({parentContainer: tripControlsElement});
-    filterPresenter.init();
+    render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
+    render(new FilterView(), tripControlsElement);
+    render(new SortView(), tripEventsElement);
+    render(this.contentComponent, tripEventsElement);
 
-    const sortPresenter = new SortPresenter({parentContainer: tripEventsElement});
-    sortPresenter.init();
+    render(this.formComponent, this.contentComponent.getElement());
+    render(new FormHeaderView(), formElement);
+    render(this.formDetailsComponent, formElement);
+    render(new FormDestinationView(), this.formDetailsComponent.getElement());
+    render(new FormOffersView(), this.formDetailsComponent.getElement());
 
-    const contentPresenter = new ContentPresenter({
-      parentContainer: tripEventsElement,
-      tripPointsModel: this.tripPointsModel
-    });
-    contentPresenter.init();
+    for (let i = 0; i < this.tripPoints.length; i++) {
+      render(new TripPointView({tripPoint: this.tripPoints[i]}), this.contentComponent.getElement());
+    }
   }
 }

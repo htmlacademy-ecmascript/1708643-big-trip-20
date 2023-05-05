@@ -1,11 +1,10 @@
 import {createElement} from '../render.js';
 
-function createEditFormTemplate() {
-  return `<li class="trip-events__item">
-  <form class="event event--edit" action="#" method="post">
-  </form>
-</li>`;
-}
+const createEditFormTemplate = () =>
+  `<li class="trip-events__item">
+    <form class="event event--edit" action="#" method="post">
+    </form>
+  </li>`;
 
 export default class EditFormView {
   getTemplate() {

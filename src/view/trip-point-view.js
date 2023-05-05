@@ -2,7 +2,7 @@ import {createElement} from '../render.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 import {getDestinationById} from '../mock/trip-destination.js';
 
-function createTripPointTemplate(point) {
+const createTripPointTemplate = (point) => {
   const {basePrice, dateFrom, dateTo, destination, isFavorite, offers, type} = convertKeysToCamelCase(point);
 
   const shortDate = formatDate(dateFrom, 'MMM DD');
@@ -58,7 +58,7 @@ function createTripPointTemplate(point) {
     </button>
   </div>
 </li>`;
-}
+};
 
 export default class TripPointView {
   constructor({tripPoint}) {
