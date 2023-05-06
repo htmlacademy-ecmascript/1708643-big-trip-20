@@ -135,12 +135,6 @@ const mockOffers = [
   }
 ];
 
-function getOffersbyType(type) {
-  for (const mock of mockOffers) {
-    if (mock.type === type) {
-      return mock.offers;
-    }
-  }
-}
+const getOffers = () => mockOffers;
 
-export {getOffersbyType};
+export {getOffers};

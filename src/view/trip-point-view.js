@@ -1,21 +1,22 @@
 import {createElement} from '../render.js';
+import {DATE_TIME_FORMAT} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
-import {getDestinationById} from '../mock/trip-destination.js';
 
-const createTripPointTemplate = (point) => {
-  const {basePrice, dateFrom, dateTo, destination, isFavorite, offers, type} = convertKeysToCamelCase(point);
+const createTripPointTemplate = (point, offers, destination) => {
+  const {basePrice, dateFrom, dateTo, isFavorite, type} = convertKeysToCamelCase(point);
 
-  const shortDate = formatDate(dateFrom, 'MMM DD');
+  const shortDate = formatDate(dateFrom, DATE_TIME_FORMAT.shortDate);
 
-  const startDatetime = formatDate(dateFrom, 'YYYY-MM-DDTHH:mm');
-  const [startDate, startTime] = startDatetime.split('T');
+  const startDatetime = formatDate(dateFrom, DATE_TIME_FORMAT.dateTime);
+  const startDate = formatDate(dateTo, DATE_TIME_FORMAT.date);
+  const startTime = formatDate(dateTo, DATE_TIME_FORMAT.time);
 
-  const endDatetime = formatDate(dateTo, 'YYYY-MM-DDTHH:mm');
-  const endTime = endDatetime.split('T')[1];
+  const endDatetime = formatDate(dateTo, DATE_TIME_FORMAT.dateTime);
+  const endTime = formatDate(dateTo, DATE_TIME_FORMAT.time);
 
   const typeName = convertToTitleCase(type);
 
-  const destinationName = getDestinationById(destination).name;
+  const destinationName = destination.name;
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
@@ -61,12 +62,17 @@ const createTripPointTemplate = (point) => {
 };
 
 export default class TripPointView {
-  constructor({tripPoint}) {
+  constructor({tripPoint, offers, destination}) {
     this.point = tripPoint;
+    this.offers = offers;
+    this.destination = destination;
   }
 
   getTemplate() {
-    return createTripPointTemplate(this.point);
+    return createTripPointTemplate(
+      this.point,
+      this.offers,
+      this.destination);
   }
 
   getElement() {

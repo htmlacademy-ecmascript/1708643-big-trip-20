@@ -15,9 +15,11 @@ export default class MainPresenter {
   formComponent = new EditFormView();
   formDetailsComponent = new FormDetailsView();
 
-  constructor({parentContainer, pointsModel}) {
+  constructor({parentContainer, pointsModel, offersModel, destinationsModel}) {
     this.parentContainer = parentContainer;
     this.pointsModel = pointsModel;
+    this.offersModel = offersModel;
+    this.destinationsModel = destinationsModel;
   }
 
   init() {
@@ -26,7 +28,7 @@ export default class MainPresenter {
     const tripEventsElement = this.parentContainer.querySelector('.trip-events');
     const formElement = this.formComponent.getElement().querySelector('.event');
 
-    this.tripPoints = [...this.pointsModel.getPoints()];
+    this.tripPoints = this.pointsModel.get();
 
     render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
     render(new FilterView(), tripControlsElement);
@@ -40,7 +42,14 @@ export default class MainPresenter {
     render(new FormOffersView(), this.formDetailsComponent.getElement());
 
     for (let i = 0; i < this.tripPoints.length; i++) {
-      render(new TripPointView({tripPoint: this.tripPoints[i]}), this.contentComponent.getElement());
+      const offers = this.offersModel.getByType(this.tripPoints[i].type);
+      const destination = this.destinationsModel.getById(this.tripPoints[i].id);
+
+      render(new TripPointView({
+        tripPoint: this.tripPoints[i],
+        offers: offers,
+        destination: destination
+      }), this.contentComponent.getElement());
     }
   }
 }

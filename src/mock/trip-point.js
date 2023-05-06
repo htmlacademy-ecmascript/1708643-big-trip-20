@@ -1,5 +1,5 @@
-import {getRandomArrayElement, getISODate} from '../utils.js';
-import {TRIP_TYPES} from '../const.js';
+import {getRandomArrayElement, getISODate} from './utils.js';
+import {TRIP_TYPES} from './const.js';
 
 const mockPoints = [
   {
