@@ -1,4 +1,7 @@
+import {MSEC_IN_HOUR, MSEC_IN_DAY, DURATION_FORMAT} from './const.js';
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 
 const convertToTitleCase = (str) =>
   str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
@@ -24,8 +27,29 @@ const convertKeysToCamelCase = (obj) => {
 const formatDate = (date, format) =>
   date ? dayjs(date).format(format).toUpperCase() : '';
 
+const getDuration = (dateFrom, dateTo) => {
+  const diff = dayjs(dateTo).diff(dayjs(dateFrom));
+
+  let pointDuration;
+
+  switch (true) {
+    case (diff >= MSEC_IN_DAY):
+      pointDuration = dayjs.duration(diff).format(DURATION_FORMAT.days);
+      break;
+    case (diff >= MSEC_IN_HOUR):
+      pointDuration = dayjs.duration(diff).format(DURATION_FORMAT.hours);
+      break;
+    case (diff < MSEC_IN_HOUR):
+      pointDuration = dayjs.duration(diff).format(DURATION_FORMAT.mins);
+      break;
+  }
+
+  return pointDuration;
+};
+
 export {
   convertToTitleCase,
   convertKeysToCamelCase,
-  formatDate
+  formatDate,
+  getDuration
 };

@@ -1,6 +1,6 @@
 import {createElement} from '../render.js';
 import {DATE_TIME_FORMAT} from '../const.js';
-import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
+import {convertToTitleCase, convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
 
 const createTripPointTemplate = (point, offers, destination) => {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = convertKeysToCamelCase(point);
@@ -8,11 +8,13 @@ const createTripPointTemplate = (point, offers, destination) => {
   const shortDate = formatDate(dateFrom, DATE_TIME_FORMAT.shortDate);
 
   const startDatetime = formatDate(dateFrom, DATE_TIME_FORMAT.dateTime);
-  const startDate = formatDate(dateTo, DATE_TIME_FORMAT.date);
-  const startTime = formatDate(dateTo, DATE_TIME_FORMAT.time);
+  const startDate = formatDate(dateFrom, DATE_TIME_FORMAT.date);
+  const startTime = formatDate(dateFrom, DATE_TIME_FORMAT.time);
 
   const endDatetime = formatDate(dateTo, DATE_TIME_FORMAT.dateTime);
   const endTime = formatDate(dateTo, DATE_TIME_FORMAT.time);
+
+  const duration = getDuration(dateFrom, dateTo);
 
   const typeName = convertToTitleCase(type);
 
@@ -35,7 +37,7 @@ const createTripPointTemplate = (point, offers, destination) => {
         &mdash;
         <time class="event__end-time" datetime=${endDatetime}>${endTime}</time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">${duration}</p>
     </div>
     <p class="event__price">
       &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
