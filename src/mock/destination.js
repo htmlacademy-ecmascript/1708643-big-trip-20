@@ -9,11 +9,11 @@ const mockDestinations = [
     'pictures': [
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       }
     ]
   },
@@ -24,11 +24,11 @@ const mockDestinations = [
     'pictures': [
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       }
     ]
   },
@@ -39,15 +39,15 @@ const mockDestinations = [
     'pictures': [
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       }
     ]
   },
@@ -58,15 +58,15 @@ const mockDestinations = [
     'pictures': [
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       },
       {
         'src': getRandomPicture(),
-        'description': crypto.randomUUID
+        'description': crypto.randomUUID()
       }
     ]
   }

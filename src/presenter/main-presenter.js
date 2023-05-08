@@ -29,6 +29,11 @@ export default class MainPresenter {
     const formElement = this.formComponent.getElement().querySelector('.event');
 
     this.tripPoints = this.pointsModel.get();
+    this.offers = this.offersModel.get();
+    this.destinations = this.destinationsModel.get();
+
+    const formDestination = this.destinationsModel.getById(this.tripPoints[0].id);
+    const formOffers = this.offersModel.getByType(this.tripPoints[0].type);
 
     render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
     render(new FilterView(), tripControlsElement);
@@ -36,10 +41,24 @@ export default class MainPresenter {
     render(this.contentComponent, tripEventsElement);
 
     render(this.formComponent, this.contentComponent.getElement());
-    render(new FormHeaderView(), formElement);
+    render(new FormHeaderView({
+      tripPoint: this.tripPoints[0],
+      destinationList: this.destinations,
+      destination: formDestination
+    }), formElement);
+
     render(this.formDetailsComponent, formElement);
-    render(new FormDestinationView(), this.formDetailsComponent.getElement());
-    render(new FormOffersView(), this.formDetailsComponent.getElement());
+    if (formDestination) {
+      render(new FormDestinationView({destination: formDestination}),
+        this.formDetailsComponent.getElement());
+    }
+
+    if (formOffers.length) {
+      render(new FormOffersView({
+        pointOffers: this.tripPoints[0].offers,
+        offers: formOffers
+      }), this.formDetailsComponent.getElement());
+    }
 
     for (let i = 0; i < this.tripPoints.length; i++) {
       const offers = this.offersModel.getByType(this.tripPoints[i].type);
