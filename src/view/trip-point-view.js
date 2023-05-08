@@ -2,10 +2,20 @@ import {createElement} from '../render.js';
 import {DATE_TIME_FORMAT} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
 
-const createTripPointTemplate = (point, offers, destination) => {
-  const {basePrice, dateFrom, dateTo, isFavorite, type} = convertKeysToCamelCase(point);
+const createOffersListTemplate = (pointOffers, offers) =>
+  pointOffers.map((pointOfferId) => {
+    const offer = offers.filter((el) => el.id === pointOfferId)[0];
+    return `<li class="event__offer">
+        <span class="event__offer-title">${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer.price}</span>
+      </li>`;
+  }).join('');
 
-  const shortDate = formatDate(dateFrom, DATE_TIME_FORMAT.shortDate);
+const createTripPointTemplate = (point, offersList, destination) => {
+  const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = convertKeysToCamelCase(point);
+
+  const shortDate = formatDate(dateFrom, DATE_TIME_FORMAT.shortDate).toUpperCase();
 
   const startDatetime = formatDate(dateFrom, DATE_TIME_FORMAT.dateTime);
   const startDate = formatDate(dateFrom, DATE_TIME_FORMAT.date);
@@ -44,11 +54,7 @@ const createTripPointTemplate = (point, offers, destination) => {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li class="event__offer">
-        <span class="event__offer-title">Order Uber</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">20</span>
-      </li>
+      ${createOffersListTemplate(offers, offersList)}
     </ul>
     <button class="event__favorite-btn ${favoriteClassName}" type="button">
       <span class="visually-hidden">Add to favorite</span>
@@ -74,7 +80,8 @@ export default class TripPointView {
     return createTripPointTemplate(
       this.point,
       this.offers,
-      this.destination);
+      this.destination
+    );
   }
 
   getElement() {

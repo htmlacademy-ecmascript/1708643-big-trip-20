@@ -30,7 +30,7 @@ const mockPoints = [
     'destination': 3,
     'is_favorite': false,
     'offers': [],
-    'type': TRIP_TYPES[5]
+    'type': TRIP_TYPES[7]
   },
   {
     'id': 4,
@@ -40,7 +40,7 @@ const mockPoints = [
     'destination': 4,
     'is_favorite': true,
     'offers': [1, 2, 4, 5],
-    'type': TRIP_TYPES[3]
+    'type': TRIP_TYPES[5]
   }
 ];
 

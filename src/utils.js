@@ -25,7 +25,7 @@ const convertKeysToCamelCase = (obj) => {
 };
 
 const formatDate = (date, format) =>
-  date ? dayjs(date).format(format).toUpperCase() : '';
+  date ? dayjs(date).format(format) : '';
 
 const getDuration = (dateFrom, dateTo) => {
   const diff = dayjs(dateTo).diff(dayjs(dateFrom));
