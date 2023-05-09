@@ -1,5 +1,17 @@
 const POINT_LIST_RENDER_COUNT = 3;
 
+const TRIP_TYPES = [
+  'taxi',
+  'bus',
+  'train',
+  'ship',
+  'drive',
+  'flight',
+  'check-in',
+  'sightseeing',
+  'restaurant'
+];
+
 const MSEC_IN_SEC = 1000;
 const SEC_IN_MIN = 60;
 const MIN_IN_HOUR = 60;
@@ -24,6 +36,7 @@ const DURATION_FORMAT = {
 
 export {
   POINT_LIST_RENDER_COUNT,
+  TRIP_TYPES,
   DATE_TIME_FORMAT,
   DURATION_FORMAT,
   MSEC_IN_HOUR,

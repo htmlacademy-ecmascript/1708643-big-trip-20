@@ -1,17 +1,5 @@
 const PICTURE_TEMPLATE_URL = 'https://loremflickr.com/248/152?random=';
 
-const TRIP_TYPES = [
-  'taxi',
-  'bus',
-  'train',
-  'ship',
-  'drive',
-  'flight',
-  'check-in',
-  'sightseeing',
-  'restaurant'
-];
-
 const CITIES = [
   'Geneva',
   'Tokio',
@@ -32,7 +20,6 @@ const DESCRIPTIONS = [
 
 export {
   PICTURE_TEMPLATE_URL,
-  TRIP_TYPES,
   CITIES,
   DESCRIPTIONS
 };
