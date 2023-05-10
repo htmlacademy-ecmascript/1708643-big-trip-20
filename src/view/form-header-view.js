@@ -10,6 +10,10 @@ const createEventTypeDropdownTemplate = () =>
     </div>`
   ).join('');
 
+const createDestinationOptionsTemplate = (destinations) =>
+  destinations.map((destination) =>
+    `<option value="${destination.name}"></option>`).join('');
+
 const createFormHeaderTemplate = (point, destinationList, destination) => {
   const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
 
@@ -42,9 +46,7 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationName}" list="destination-list-1">
       <datalist id="destination-list-1">
-        <option value="Amsterdam"></option>
-        <option value="Geneva"></option>
-        <option value="Chamonix"></option>
+        ${createDestinationOptionsTemplate(destinationList)}
       </datalist>
     </div>
 
