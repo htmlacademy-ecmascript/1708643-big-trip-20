@@ -17,18 +17,21 @@ const createDestinationOptionsTemplate = (destinations) =>
 const createFormHeaderTemplate = (point, destinationList, destination) => {
   const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
 
-  const startDatetime = formatDate(dateFrom, DATE_TIME_FORMAT.formDateTime);
-  const endDatetime = formatDate(dateTo, DATE_TIME_FORMAT.formDateTime);
+  const startDatetime = dateFrom ? formatDate(dateFrom, DATE_TIME_FORMAT.formDateTime) : '';
+  const endDatetime = dateTo ? formatDate(dateTo, DATE_TIME_FORMAT.formDateTime) : '';
 
-  const typeName = convertToTitleCase(type);
+  const pointType = type ? type : TRIP_TYPES[0];
+  const typeName = convertToTitleCase(pointType);
 
-  const destinationName = destination.name;
+  const destinationName = destination.name ? destination.name : '';
+
+  const price = basePrice ? basePrice : '';
 
   return `<header class="event__header">
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
         <span class="visually-hidden">Choose event type</span>
-        <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
+        <img class="event__type-icon" width="17" height="17" src="img/icons/${pointType}.png" alt="Event type icon">
       </label>
       <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -63,7 +66,7 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
         <span class="visually-hidden">Price</span>
         &euro;
       </label>
-      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
