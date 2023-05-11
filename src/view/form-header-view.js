@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import {DATE_TIME_FORMAT, TRIP_TYPES} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 
@@ -74,30 +74,24 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
   </header>`;
 };
 
-export default class FormHeaderView {
+export default class FormHeaderView extends AbstractView {
+  #point;
+  #destinationList;
+  #destination;
+
   constructor({tripPoint, destinationList, destination}) {
-    this.point = tripPoint;
-    this.destinationList = destinationList;
-    this.destination = destination;
+    super();
+
+    this.#point = tripPoint;
+    this.#destinationList = destinationList;
+    this.#destination = destination;
   }
 
-  getTemplate() {
+  get template() {
     return createFormHeaderTemplate(
-      this.point,
-      this.destinationList,
-      this.destination
+      this.#point,
+      this.#destinationList,
+      this.#destination
     );
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

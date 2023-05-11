@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createPicturesTemplate = (pictures) =>
   pictures.map((picture) =>
@@ -20,24 +20,16 @@ const createFormDestinationTemplate = (destination) => {
   </section>`;
 };
 
-export default class FormDestinationView {
+export default class FormDestinationView extends AbstractView {
+  #destination;
+
   constructor({destination}) {
-    this.destination = destination;
+    super();
+
+    this.#destination = destination;
   }
 
-  getTemplate() {
-    return createFormDestinationTemplate(this.destination);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createFormDestinationTemplate(this.#destination);
   }
 }

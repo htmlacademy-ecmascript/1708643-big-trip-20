@@ -1,4 +1,4 @@
-import {RenderPosition, render} from '../render.js';
+import {RenderPosition, render} from '../framework/render.js';
 import TripInfoView from './../view/trip-info-view.js';
 import FilterView from './../view/filter-view.js';
 import SortView from './../view/sort-view.js';
@@ -26,7 +26,7 @@ export default class MainPresenter {
     const tripMainElement = this.parentContainer.querySelector('.trip-main');
     const tripControlsElement = tripMainElement.querySelector('.trip-controls__filters');
     const tripEventsElement = this.parentContainer.querySelector('.trip-events');
-    const formElement = this.formComponent.getElement().querySelector('.event');
+    const formElement = this.formComponent.element.querySelector('.event');
 
     this.tripPoints = this.pointsModel.get();
     this.offers = this.offersModel.get();
@@ -40,7 +40,7 @@ export default class MainPresenter {
     render(new SortView(), tripEventsElement);
     render(this.contentComponent, tripEventsElement);
 
-    render(this.formComponent, this.contentComponent.getElement());
+    render(this.formComponent, this.contentComponent.element);
     render(new FormHeaderView({
       tripPoint: this.tripPoints[0],
       destinationList: this.destinations,
@@ -50,14 +50,14 @@ export default class MainPresenter {
     render(this.formDetailsComponent, formElement);
     if (formDestination) {
       render(new FormDestinationView({destination: formDestination}),
-        this.formDetailsComponent.getElement());
+        this.formDetailsComponent.element);
     }
 
     if (formOffers.length) {
       render(new FormOffersView({
         pointOffers: this.tripPoints[0].offers,
         offers: formOffers
-      }), this.formDetailsComponent.getElement());
+      }), this.formDetailsComponent.element);
     }
 
     for (let i = 0; i < this.tripPoints.length; i++) {
@@ -68,7 +68,7 @@ export default class MainPresenter {
         tripPoint: this.tripPoints[i],
         offers: offers,
         destination: destination
-      }), this.contentComponent.getElement());
+      }), this.contentComponent.element);
     }
   }
 }

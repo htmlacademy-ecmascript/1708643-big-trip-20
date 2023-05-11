@@ -1,23 +1,11 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createFormDetailsTemplate = () =>
   `<section class="event__details">
   </section>`;
 
-export default class FormDetailsView {
-  getTemplate() {
+export default class FormDetailsView extends AbstractView {
+  get template() {
     return createFormDetailsTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
