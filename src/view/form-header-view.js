@@ -70,21 +70,29 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Cancel</button>
+    <button class="event__reset-btn" type="reset">Delete</button>
+    <button class="event__rollup-btn" type="button">
+      <span class="visually-hidden">Open event</span>
+    </button>
   </header>`;
 };
 
 export default class FormHeaderView extends AbstractView {
-  #point;
-  #destinationList;
-  #destination;
+  #point = null;
+  #destinationList = null;
+  #destination = null;
+  #handleRollupButtonClick = null;
 
-  constructor({tripPoint, destinationList, destination}) {
+  constructor({tripPoint, destinationList, destination, onRollupButtonClick}) {
     super();
 
     this.#point = tripPoint;
     this.#destinationList = destinationList;
     this.#destination = destination;
+
+    this.#handleRollupButtonClick = onRollupButtonClick;
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#rollupButtonClickHandler);
   }
 
   get template() {
@@ -94,4 +102,9 @@ export default class FormHeaderView extends AbstractView {
       this.#destination
     );
   }
+
+  #rollupButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupButtonClick();
+  };
 }

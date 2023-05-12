@@ -32,18 +32,28 @@ export default class MainPresenter {
     const offers = this.#offersModel.getByType(tripPoint.type);
     const destination = this.#destinationsModel.getById(tripPoint.id);
 
+    const escKeyDownHandler = (evt) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToTripPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+
     const tripPointComponent = new TripPointView({
       tripPoint: tripPoint,
       offers: offers,
       destination: destination,
-      onEditClick: () => {
+      onRollupButtonClick: () => {
         replaceTripPointToForm();
+        document.addEventListener('keydown', escKeyDownHandler);
       }
     });
 
     const formComponent = new EditFormView({
       onFormSubmit: () => {
         replaceFormToTripPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
       }
     });
 
@@ -53,7 +63,11 @@ export default class MainPresenter {
     render(new FormHeaderView({
       tripPoint: tripPoint,
       destinationList: this.#destinations,
-      destination: destination
+      destination: destination,
+      onRollupButtonClick: () => {
+        replaceFormToTripPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
     }), formElement);
 
     render(formDetailsComponent, formElement);
