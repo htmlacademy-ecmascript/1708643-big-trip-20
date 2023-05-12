@@ -7,7 +7,22 @@ const createEditFormTemplate = () =>
   </li>`;
 
 export default class EditFormView extends AbstractView {
+  #handleFormSubmit = null;
+
+  constructor({onFormSubmit}) {
+    super();
+    this.#handleFormSubmit = onFormSubmit;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+  }
+
   get template() {
     return createEditFormTemplate();
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 }

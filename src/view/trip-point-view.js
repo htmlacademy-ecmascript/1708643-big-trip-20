@@ -70,16 +70,21 @@ const createTripPointTemplate = (point, offersList, destination) => {
 };
 
 export default class TripPointView extends AbstractView {
-  #point;
-  #offers;
-  #destination;
+  #point = null;
+  #offers = null;
+  #destination = null;
+  #handleEditClick = null;
 
-  constructor({tripPoint, offers, destination}) {
+  constructor({tripPoint, offers, destination, onEditClick}) {
     super();
 
     this.#point = tripPoint;
     this.#offers = offers;
     this.#destination = destination;
+
+    this.#handleEditClick = onEditClick;
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
@@ -89,4 +94,9 @@ export default class TripPointView extends AbstractView {
       this.#destination
     );
   }
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }
