@@ -9,6 +9,7 @@ import FormHeaderView from './../view/form-header-view.js';
 import FormDetailsView from './../view/form-details-view.js';
 import FormDestinationView from './../view/form-destination-view.js';
 import FormOffersView from './../view/form-offers-view.js';
+import NoTripPointView from './../view/no-trip-point-view.js';
 
 export default class MainPresenter {
   #contentComponent = new TripEventsListView();
@@ -102,9 +103,16 @@ export default class MainPresenter {
     this.#tripPoints = this.#pointsModel.points;
     this.#destinations = this.#destinationsModel.destinations;
 
-    render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
     render(new FilterView(), tripControlsElement);
+
+    if (!this.#tripPoints.length) {
+      render(new NoTripPointView(), tripEventsElement);
+      return;
+    }
+
+    render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
     render(new SortView(), tripEventsElement);
+
     render(this.#contentComponent, tripEventsElement);
 
     for (let i = 0; i < this.#tripPoints.length; i++) {
