@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import {DATE_TIME_FORMAT, TRIP_TYPES} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 
@@ -70,34 +70,41 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
     </div>
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Cancel</button>
+    <button class="event__reset-btn" type="reset">Delete</button>
+    <button class="event__rollup-btn" type="button">
+      <span class="visually-hidden">Open event</span>
+    </button>
   </header>`;
 };
 
-export default class FormHeaderView {
-  constructor({tripPoint, destinationList, destination}) {
-    this.point = tripPoint;
-    this.destinationList = destinationList;
-    this.destination = destination;
+export default class FormHeaderView extends AbstractView {
+  #point = null;
+  #destinationList = null;
+  #destination = null;
+  #handleRollupButtonClick = null;
+
+  constructor({tripPoint, destinationList, destination, onRollupButtonClick}) {
+    super();
+
+    this.#point = tripPoint;
+    this.#destinationList = destinationList;
+    this.#destination = destination;
+
+    this.#handleRollupButtonClick = onRollupButtonClick;
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#rollupButtonClickHandler);
   }
 
-  getTemplate() {
+  get template() {
     return createFormHeaderTemplate(
-      this.point,
-      this.destinationList,
-      this.destination
+      this.#point,
+      this.#destinationList,
+      this.#destination
     );
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #rollupButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupButtonClick();
+  };
 }

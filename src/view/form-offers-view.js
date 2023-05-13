@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createOffersTemplate = (pointOffers, offersList) =>
   offersList.map((offer, index) => {
@@ -23,25 +23,18 @@ const createFormOffersTemplate = (pointOffers, offersList) =>
     </div>
   </section>`;
 
-export default class FormOffersView {
+export default class FormOffersView extends AbstractView {
+  #pointOffers;
+  #offers;
+
   constructor({pointOffers, offers}) {
-    this.pointOffers = pointOffers;
-    this.offers = offers;
+    super();
+
+    this.#pointOffers = pointOffers;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createFormOffersTemplate(this.pointOffers, this.offers);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createFormOffersTemplate(this.#pointOffers, this.#offers);
   }
 }
