@@ -10,6 +10,7 @@ import FormDetailsView from './../view/form-details-view.js';
 import FormDestinationView from './../view/form-destination-view.js';
 import FormOffersView from './../view/form-offers-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
+import {generateFilter} from '../mock/filter.js';
 
 export default class MainPresenter {
   #contentComponent = new TripEventsListView();
@@ -103,7 +104,9 @@ export default class MainPresenter {
     this.#tripPoints = this.#pointsModel.points;
     this.#destinations = this.#destinationsModel.destinations;
 
-    render(new FilterView(), tripControlsElement);
+    const filters = generateFilter(this.#tripPoints);
+
+    render(new FilterView({filters}), tripControlsElement);
 
     if (!this.#tripPoints.length) {
       render(new NoTripPointView(), tripEventsElement);

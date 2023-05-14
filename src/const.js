@@ -34,11 +34,19 @@ const DURATION_FORMAT = {
   mins: 'mm[M]'
 };
 
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_TYPES,
   DATE_TIME_FORMAT,
   DURATION_FORMAT,
   MSEC_IN_HOUR,
-  MSEC_IN_DAY
+  MSEC_IN_DAY,
+  FilterType
 };
