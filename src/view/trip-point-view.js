@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {DATE_TIME_FORMAT} from '../const.js';
+import {datetimeFormat} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
 
 const createOffersListTemplate = (pointOffers, offers) =>
@@ -15,18 +15,16 @@ const createOffersListTemplate = (pointOffers, offers) =>
 const createTripPointTemplate = (point, offersList, destination) => {
   const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = convertKeysToCamelCase(point);
 
-  const shortDate = formatDate(dateFrom, DATE_TIME_FORMAT.shortDate).toUpperCase();
+  const shortDate = formatDate(dateFrom, datetimeFormat.SHORT_DATE).toUpperCase();
 
-  const startDatetime = formatDate(dateFrom, DATE_TIME_FORMAT.dateTime);
-  const startDate = formatDate(dateFrom, DATE_TIME_FORMAT.date);
-  const startTime = formatDate(dateFrom, DATE_TIME_FORMAT.time);
+  const startDatetime = formatDate(dateFrom, datetimeFormat.DATETIME);
+  const startDate = formatDate(dateFrom, datetimeFormat.DATE);
+  const startTime = formatDate(dateFrom, datetimeFormat.TIME);
 
-  const endDatetime = formatDate(dateTo, DATE_TIME_FORMAT.dateTime);
-  const endTime = formatDate(dateTo, DATE_TIME_FORMAT.time);
+  const endDatetime = formatDate(dateTo, datetimeFormat.DATE);
+  const endTime = formatDate(dateTo, datetimeFormat.TIME);
 
   const duration = getDuration(dateFrom, dateTo);
-
-  const typeName = convertToTitleCase(type);
 
   const destinationName = destination.name;
 
@@ -40,7 +38,7 @@ const createTripPointTemplate = (point, offersList, destination) => {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${typeName} ${destinationName}</h3>
+    <h3 class="event__title">${type} ${destinationName}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime=${startDatetime}>${startTime}</time>
