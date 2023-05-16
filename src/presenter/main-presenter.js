@@ -22,6 +22,7 @@ export default class MainPresenter {
 
   #tripPoints = [];
   #destinations = [];
+  #offers = [];
 
   constructor({parentContainer, pointsModel, offersModel, destinationsModel}) {
     this.#parentContainer = parentContainer;
@@ -103,6 +104,7 @@ export default class MainPresenter {
 
     this.#tripPoints = this.#pointsModel.points;
     this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
 
     const filters = generateFilter(this.#tripPoints);
 
@@ -113,13 +115,18 @@ export default class MainPresenter {
       return;
     }
 
-    render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
+    render(new TripInfoView({
+      tripPoints: this.#tripPoints,
+      desinations: this.#destinations,
+      offers: this.#offers
+    }), tripMainElement, RenderPosition.AFTERBEGIN);
+
     render(new SortView(), tripEventsElement);
 
     render(this.#contentComponent, tripEventsElement);
 
     for (let i = 0; i < this.#tripPoints.length; i++) {
-      this.#renderTripEvent(this.#tripPoints[i], this.#destinations);
+      this.#renderTripEvent(this.#tripPoints[i]);
     }
   }
 }
