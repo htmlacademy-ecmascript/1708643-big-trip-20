@@ -1,4 +1,4 @@
-import {MSEC_IN_HOUR, MSEC_IN_DAY, durationFormat, FilterType} from './const.js';
+import {MSEC_IN_HOUR, MSEC_IN_DAY, durationFormat} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
@@ -59,17 +59,12 @@ const isTripPointInPresent = (dateFrom, dateTo) =>
 const isTripPointInPast = (dateTo) =>
   dateTo && dayjs(dateTo).isBefore(dayjs());
 
-const filter = {
-  [FilterType.EVERYTHING]: (points) => points,
-  [FilterType.FUTURE]: (points) => points.filter((point) => isTripPointInFuture(point.date_from)),
-  [FilterType.PRESENT]: (points) => points.filter((point) => isTripPointInPresent(point.date_from, point.date_to)),
-  [FilterType.PAST]: (points) => points.filter((point) => isTripPointInPast(point.date_to))
-};
-
 export {
   convertToTitleCase,
   convertKeysToCamelCase,
   formatDate,
   getDuration,
-  filter
+  isTripPointInFuture,
+  isTripPointInPresent,
+  isTripPointInPast
 };

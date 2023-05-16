@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {datetimeFormat} from '../const.js';
-import {convertToTitleCase, convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
+import {convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
 
 const createOffersListTemplate = (pointOffers, offers) =>
   pointOffers.map((pointOfferId) => {
