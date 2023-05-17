@@ -1,9 +1,9 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {filterStubText} from '../const.js';
+import {FilterStubText} from '../const.js';
 
 const createNoTripPointTemplate = () =>
   `<p class="trip-events__msg">
-    ${filterStubText.EVERYTHING}
+    ${FilterStubText.EVERYTHING}
   </p>`;
 
 export default class NoTripPointView extends AbstractView {

@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {datetimeFormat, TRIP_TYPES} from '../const.js';
+import {DatetimeFormat, TRIP_TYPES} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 
 const createEventTypeDropdownTemplate = () =>
@@ -17,8 +17,8 @@ const createDestinationOptionsTemplate = (destinations) =>
 const createFormHeaderTemplate = (point, destinationList, destination) => {
   const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
 
-  const startDatetime = dateFrom ? formatDate(dateFrom, datetimeFormat.FORM_DATETIME) : '';
-  const endDatetime = dateTo ? formatDate(dateTo, datetimeFormat.FORM_DATETIME) : '';
+  const startDatetime = dateFrom ? formatDate(dateFrom, DatetimeFormat.FORM_DATETIME) : '';
+  const endDatetime = dateTo ? formatDate(dateTo, DatetimeFormat.FORM_DATETIME) : '';
 
   const typeName = type ? type : TRIP_TYPES[0];
 

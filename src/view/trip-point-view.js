@@ -1,10 +1,10 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {datetimeFormat} from '../const.js';
+import {DatetimeFormat} from '../const.js';
 import {convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
 
 const createOffersListTemplate = (pointOffers, offers) =>
   pointOffers.map((pointOfferId) => {
-    const offer = offers.filter((el) => el.id === pointOfferId)[0];
+    const offer = offers.find((el) => el.id === pointOfferId);
     return `<li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
@@ -15,14 +15,14 @@ const createOffersListTemplate = (pointOffers, offers) =>
 const createTripPointTemplate = (point, offersList, destination) => {
   const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = convertKeysToCamelCase(point);
 
-  const shortDate = formatDate(dateFrom, datetimeFormat.SHORT_DATE);
+  const shortDate = formatDate(dateFrom, DatetimeFormat.SHORT_DATE);
 
-  const startDatetime = formatDate(dateFrom, datetimeFormat.DATETIME);
-  const startDate = formatDate(dateFrom, datetimeFormat.DATE);
-  const startTime = formatDate(dateFrom, datetimeFormat.TIME);
+  const startDatetime = formatDate(dateFrom, DatetimeFormat.DATETIME);
+  const startDate = formatDate(dateFrom, DatetimeFormat.DATE);
+  const startTime = formatDate(dateFrom, DatetimeFormat.TIME);
 
-  const endDatetime = formatDate(dateTo, datetimeFormat.DATE);
-  const endTime = formatDate(dateTo, datetimeFormat.TIME);
+  const endDatetime = formatDate(dateTo, DatetimeFormat.DATE);
+  const endTime = formatDate(dateTo, DatetimeFormat.TIME);
 
   const duration = getDuration(dateFrom, dateTo);
 

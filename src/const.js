@@ -20,7 +20,7 @@ const HOUR_IN_DAY = 24;
 const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
 
-const datetimeFormat = {
+const DatetimeFormat = {
   DATETIME: 'YYYY-MM-DDTHH:mm',
   DATE: 'YYYY-MM-DD',
   TIME: 'HH:mm',
@@ -28,7 +28,7 @@ const datetimeFormat = {
   FORM_DATETIME: 'DD/MM/YY HH:mm'
 };
 
-const durationFormat = {
+const DurationFormat = {
   DAYS: 'DD[D] HH[H] mm[M]',
   HOURS: 'HH[H] mm[M]',
   MINS: 'mm[M]'
@@ -41,7 +41,7 @@ const FilterType = {
   PAST: 'past'
 };
 
-const filterStubText = {
+const FilterStubText = {
   EVERYTHING: 'Click New Event to create your first point',
   FUTURE: 'There are no future events now',
   PRESENT: 'There are no present events now',
@@ -51,10 +51,10 @@ const filterStubText = {
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_TYPES,
-  datetimeFormat,
-  durationFormat,
+  DatetimeFormat,
+  DurationFormat,
   MSEC_IN_HOUR,
   MSEC_IN_DAY,
   FilterType,
-  filterStubText
+  FilterStubText
 };

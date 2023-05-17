@@ -1,4 +1,4 @@
-import {MSEC_IN_HOUR, MSEC_IN_DAY, durationFormat} from './const.js';
+import {MSEC_IN_HOUR, MSEC_IN_DAY, DurationFormat} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -38,13 +38,13 @@ const getDuration = (dateFrom, dateTo) => {
 
   switch (true) {
     case (diff >= MSEC_IN_DAY):
-      pointDuration = dayjs.duration(diff).format(durationFormat.DAYS);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.DAYS);
       break;
     case (diff >= MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(diff).format(durationFormat.HOURS);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.HOURS);
       break;
     case (diff < MSEC_IN_HOUR):
-      pointDuration = dayjs.duration(diff).format(durationFormat.MINS);
+      pointDuration = dayjs.duration(diff).format(DurationFormat.MINS);
       break;
   }
 
