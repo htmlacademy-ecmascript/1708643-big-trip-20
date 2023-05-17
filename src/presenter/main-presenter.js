@@ -117,7 +117,7 @@ export default class MainPresenter {
 
     render(new TripInfoView({
       tripPoints: this.#tripPoints,
-      desinations: this.#destinations,
+      destinations: this.#destinations,
       offers: this.#offers
     }), tripMainElement, RenderPosition.AFTERBEGIN);
 

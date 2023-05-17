@@ -3,13 +3,32 @@ import {DatetimeFormat} from '../const.js';
 import {comparePointsByDate, formatDate} from '../utils.js';
 
 const createTripInfoMainTemplate = (points, destinations) => {
-  points.sort((a, b) => comparePointsByDate(a, b));
+  points.sort((first, second) => comparePointsByDate(first, second));
 
   const startDate = formatDate(points[0].date_from, DatetimeFormat.SHORT_DATE);
   const endDate = formatDate(points[points.length - 1].date_to, DatetimeFormat.SHORT_DATE);
 
+  let destinationNames = points.map((point) => destinations.find((el) => point.id === el.id).name);
+  destinationNames = destinationNames.filter((el, i, array) => array[i] !== array[i + 1]);
+
+  let title;
+
+  switch (destinationNames.length) {
+    case 1:
+      title = destinationNames[0];
+      break;
+    case 2:
+      title = `${destinationNames[0]} &mdash; ${destinationNames[1]}`;
+      break;
+    case 3:
+      title = `${destinationNames[0]} &mdash; ${destinationNames[1]} &mdash; ${destinationNames[2]}`;
+      break;
+    default:
+      title = `${destinationNames[0]} &mdash; &hellip; &mdash; ${destinationNames[destinationNames.length - 1]}`;
+  }
+
   return `<div class="trip-info__main">
-    <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
+    <h1 class="trip-info__title">${title}</h1>
 
     <p class="trip-info__dates">${startDate}&nbsp;&mdash;&nbsp;${endDate}</p>
   </div>`;
