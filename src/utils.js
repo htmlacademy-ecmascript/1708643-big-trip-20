@@ -63,7 +63,16 @@ const isTripPointInPresent = (dateFrom, dateTo) =>
 const isTripPointInPast = (dateTo) =>
   dateTo && dayjs(dateTo).isBefore(dayjs());
 
+const comparePointsByDate = (firstPoint, secondPoint) => {
+  const firstDate = dayjs(firstPoint.date_from);
+  const secondDate = dayjs(secondPoint.date_from);
+  const result = firstDate.isBefore(secondDate);
+
+  return result ? -result : firstDate.isAfter(secondDate);
+};
+
 export {
+  comparePointsByDate,
   convertToTitleCase,
   convertKeysToCamelCase,
   formatDate,

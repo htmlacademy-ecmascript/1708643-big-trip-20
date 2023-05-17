@@ -1,4 +1,19 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import {datetimeFormat} from '../const.js';
+import {comparePointsByDate, formatDate} from '../utils.js';
+
+const createTripInfoMainTemplate = (points, destinations) => {
+  points.sort((a, b) => comparePointsByDate(a, b));
+
+  const startDate = formatDate(points[0].date_from, datetimeFormat.SHORT_DATE);
+  const endDate = formatDate(points[points.length - 1].date_to, datetimeFormat.SHORT_DATE);
+
+  return `<div class="trip-info__main">
+    <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
+
+    <p class="trip-info__dates">${startDate}&nbsp;&mdash;&nbsp;${endDate}</p>
+  </div>`;
+};
 
 const createTripInfoCostTemplate = (points, offers) => {
   let cost = 0;
@@ -19,11 +34,7 @@ const createTripInfoCostTemplate = (points, offers) => {
 
 const createTripInfoTemplate = (points, destinations, offers) =>
   `<section class="trip-main__trip-info  trip-info">
-    <div class="trip-info__main">
-      <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
-
-      <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
-    </div>
+    ${createTripInfoMainTemplate(points, destinations)}
 
     ${createTripInfoCostTemplate(points, offers)}
   </section>`;
