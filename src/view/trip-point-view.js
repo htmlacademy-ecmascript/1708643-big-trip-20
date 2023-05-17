@@ -15,7 +15,7 @@ const createOffersListTemplate = (pointOffers, offers) =>
 const createTripPointTemplate = (point, offersList, destination) => {
   const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = convertKeysToCamelCase(point);
 
-  const shortDate = formatDate(dateFrom, datetimeFormat.SHORT_DATE).toUpperCase();
+  const shortDate = formatDate(dateFrom, datetimeFormat.SHORT_DATE);
 
   const startDatetime = formatDate(dateFrom, datetimeFormat.DATETIME);
   const startDate = formatDate(dateFrom, datetimeFormat.DATE);

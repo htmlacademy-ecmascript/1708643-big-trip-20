@@ -1,7 +1,11 @@
 import {MSEC_IN_HOUR, MSEC_IN_DAY, durationFormat} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 dayjs.extend(duration);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 const convertToTitleCase = (str) =>
   str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
@@ -53,8 +57,8 @@ const isTripPointInFuture = (dateFrom) =>
 const isTripPointInPresent = (dateFrom, dateTo) =>
   dateFrom &&
   dateTo &&
-  (dayjs(dateFrom).isBefore(dayjs()) || dayjs(dateFrom).isSame(dayjs())) &&
-  (dayjs(dateTo).isAfter(dayjs()) || dayjs(dateTo).isSame(dayjs()));
+  dayjs(dateFrom).isSameOrBefore(dayjs()) &&
+  dayjs(dateTo).isSameOrAfter(dayjs());
 
 const isTripPointInPast = (dateTo) =>
   dateTo && dayjs(dateTo).isBefore(dayjs());
