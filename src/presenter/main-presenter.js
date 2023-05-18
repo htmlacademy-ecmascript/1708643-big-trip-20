@@ -1,15 +1,10 @@
-import {RenderPosition, render, replace} from '../framework/render.js';
+import {RenderPosition, render} from '../framework/render.js';
 import TripInfoView from './../view/trip-info-view.js';
 import FilterView from './../view/filter-view.js';
 import SortView from './../view/sort-view.js';
 import TripEventsListView from './../view/trip-events-list-view.js';
-import TripPointView from './../view/trip-point-view.js';
-import EditFormView from './../view/edit-form-view.js';
-import FormHeaderView from './../view/form-header-view.js';
-import FormDetailsView from './../view/form-details-view.js';
-import FormDestinationView from './../view/form-destination-view.js';
-import FormOffersView from './../view/form-offers-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
+import TripPointPresenter from './trip-point-presenter.js';
 import {generateFilter} from '../mock/filter.js';
 
 export default class MainPresenter {
@@ -32,69 +27,13 @@ export default class MainPresenter {
   }
 
   #renderTripEvent(tripPoint) {
-    const offers = this.#offersModel.getByType(tripPoint.type);
-    const destination = this.#destinationsModel.getById(tripPoint.id);
-
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToTripPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-
-    const tripPointComponent = new TripPointView({
-      tripPoint: tripPoint,
-      offers: offers,
-      destination: destination,
-      onRollupButtonClick: () => {
-        replaceTripPointToForm();
-        document.addEventListener('keydown', escKeyDownHandler);
-      }
+    const tripPointPresenter = new TripPointPresenter({
+      parentContainer: this.#contentComponent.element,
+      offersModel: this.#offersModel,
+      destinationsModel: this.#destinationsModel
     });
 
-    const formComponent = new EditFormView({
-      onFormSubmit: () => {
-        replaceFormToTripPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    });
-
-    const formElement = formComponent.element.querySelector('.event');
-    const formDetailsComponent = new FormDetailsView();
-
-    render(new FormHeaderView({
-      tripPoint: tripPoint,
-      destinationList: this.#destinations,
-      destination: destination,
-      onRollupButtonClick: () => {
-        replaceFormToTripPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    }), formElement);
-
-    render(formDetailsComponent, formElement);
-    if (destination) {
-      render(new FormDestinationView({destination: destination}),
-        formDetailsComponent.element);
-    }
-
-    if (offers.length) {
-      render(new FormOffersView({
-        pointOffers: tripPoint.offers,
-        offers: offers
-      }), formDetailsComponent.element);
-    }
-
-    function replaceTripPointToForm() {
-      replace(formComponent, tripPointComponent);
-    }
-
-    function replaceFormToTripPoint() {
-      replace(tripPointComponent, formComponent);
-    }
-
-    render(tripPointComponent, this.#contentComponent.element);
+    tripPointPresenter.init(tripPoint);
   }
 
   init() {
