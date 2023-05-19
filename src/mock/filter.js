@@ -8,13 +8,12 @@ const filter = {
   [FilterType.PAST]: (points) => points.filter((point) => isTripPointInPast(point.date_to))
 };
 
-function generateFilter(tripPoints) {
-  return Object.entries(filter).map(
+const generateFilter = (tripPoints) =>
+  Object.entries(filter).map(
     ([filterType, filterTasks]) => ({
       type: filterType,
       count: filterTasks(tripPoints).length,
     }),
   );
-}
 
 export {generateFilter};
