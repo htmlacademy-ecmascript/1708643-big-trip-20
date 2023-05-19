@@ -1,4 +1,4 @@
-import {render, replace} from '../framework/render.js';
+import {render, replace, remove} from '../framework/render.js';
 import TripPointView from '../view/trip-point-view.js';
 import EditFormView from '../view/edit-form-view.js';
 import FormHeaderView from '../view/form-header-view.js';
@@ -54,6 +54,9 @@ export default class TripPointPresenter {
     const destination = this.#destinationsModel.getById(tripPoint.id);
     const destinations = this.#destinationsModel.destinations;
 
+    const prevPointComponent = this.#tripPointComponent;
+    const prevFormComponent = this.#formComponent;
+
     this.#tripPointComponent = new TripPointView({
       tripPoint: tripPoint,
       offers: offers,
@@ -88,6 +91,20 @@ export default class TripPointPresenter {
       }), formDetailsComponent.element);
     }
 
-    render(this.#tripPointComponent, this.#parentContainer);
+    if (prevPointComponent === null || prevFormComponent === null) {
+      render(this.#tripPointComponent, this.#parentContainer);
+      return;
+    }
+
+    if (this.#parentContainer.contains(prevPointComponent.element)) {
+      replace(this.#tripPointComponent, prevPointComponent);
+    }
+
+    if (this.#parentContainer.contains(prevFormComponent.element)) {
+      replace(this.#formComponent, prevFormComponent);
+    }
+
+    remove(prevPointComponent);
+    remove(prevFormComponent);
   }
 }
