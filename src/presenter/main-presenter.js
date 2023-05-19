@@ -26,7 +26,7 @@ export default class MainPresenter {
     this.#destinationsModel = destinationsModel;
   }
 
-  #renderTripEvent(tripPoint) {
+  #renderTripEvent = (tripPoint) => {
     const tripPointPresenter = new TripPointPresenter({
       parentContainer: this.#contentComponent.element,
       offersModel: this.#offersModel,
@@ -34,7 +34,7 @@ export default class MainPresenter {
     });
 
     tripPointPresenter.init(tripPoint);
-  }
+  };
 
   init() {
     const tripMainElement = this.#parentContainer.querySelector('.trip-main');

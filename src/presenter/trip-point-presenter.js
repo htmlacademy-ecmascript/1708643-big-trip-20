@@ -1,4 +1,4 @@
-import {RenderPosition, render, replace} from '../framework/render.js';
+import {render, replace} from '../framework/render.js';
 import TripPointView from '../view/trip-point-view.js';
 import EditFormView from '../view/edit-form-view.js';
 import FormHeaderView from '../view/form-header-view.js';
@@ -20,15 +20,15 @@ export default class TripPointPresenter {
     this.#destinationsModel = destinationsModel;
   }
 
-  #replaceTripPointToForm() {
+  #replaceTripPointToForm = () => {
     replace(this.#formComponent, this.#tripPointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
-  }
+  };
 
-  #replaceFormToTripPoint() {
+  #replaceFormToTripPoint = () => {
     replace(this.#tripPointComponent, this.#formComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-  }
+  };
 
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
