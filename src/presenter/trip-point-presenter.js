@@ -49,6 +49,11 @@ export default class TripPointPresenter {
     this.#replaceFormToTripPoint();
   };
 
+  destroy = () => {
+    remove(this.#tripPointComponent);
+    remove(this.#formComponent);
+  };
+
   init(tripPoint) {
     const offers = this.#offersModel.getByType(tripPoint.type);
     const destination = this.#destinationsModel.getById(tripPoint.id);
