@@ -11,6 +11,7 @@ export default class EditFormView extends AbstractView {
 
   constructor({onFormSubmit}) {
     super();
+
     this.#handleFormSubmit = onFormSubmit;
 
     this.element.querySelector('form')

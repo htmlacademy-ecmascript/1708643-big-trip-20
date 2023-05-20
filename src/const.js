@@ -20,25 +20,41 @@ const HOUR_IN_DAY = 24;
 const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
 
-const DATE_TIME_FORMAT = {
-  dateTime: 'YYYY-MM-DDTHH:mm',
-  date: 'YYYY-MM-DD',
-  time: 'HH:mm',
-  shortDate: 'MMM DD',
-  formDateTime: 'DD/MM/YY HH:mm'
+const DatetimeFormat = {
+  DATETIME: 'YYYY-MM-DDTHH:mm',
+  DATE: 'YYYY-MM-DD',
+  TIME: 'HH:mm',
+  SHORT_DATE: 'MMM DD',
+  FORM_DATETIME: 'DD/MM/YY HH:mm'
 };
 
-const DURATION_FORMAT = {
-  days: 'DD[D] HH[H] mm[M]',
-  hours: 'HH[H] mm[M]',
-  mins: 'mm[M]'
+const DurationFormat = {
+  DAYS: 'DD[D] HH[H] mm[M]',
+  HOURS: 'HH[H] mm[M]',
+  MINS: 'mm[M]'
+};
+
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
+
+const FilterStubText = {
+  EVERYTHING: 'Click New Event to create your first point',
+  FUTURE: 'There are no future events now',
+  PRESENT: 'There are no present events now',
+  PAST: 'There are no past events now'
 };
 
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_TYPES,
-  DATE_TIME_FORMAT,
-  DURATION_FORMAT,
+  DatetimeFormat,
+  DurationFormat,
   MSEC_IN_HOUR,
-  MSEC_IN_DAY
+  MSEC_IN_DAY,
+  FilterType,
+  FilterStubText
 };

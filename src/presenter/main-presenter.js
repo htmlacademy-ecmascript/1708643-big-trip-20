@@ -9,6 +9,8 @@ import FormHeaderView from './../view/form-header-view.js';
 import FormDetailsView from './../view/form-details-view.js';
 import FormDestinationView from './../view/form-destination-view.js';
 import FormOffersView from './../view/form-offers-view.js';
+import NoTripPointView from './../view/no-trip-point-view.js';
+import {generateFilter} from '../mock/filter.js';
 
 export default class MainPresenter {
   #contentComponent = new TripEventsListView();
@@ -20,6 +22,7 @@ export default class MainPresenter {
 
   #tripPoints = [];
   #destinations = [];
+  #offers = [];
 
   constructor({parentContainer, pointsModel, offersModel, destinationsModel}) {
     this.#parentContainer = parentContainer;
@@ -101,14 +104,29 @@ export default class MainPresenter {
 
     this.#tripPoints = this.#pointsModel.points;
     this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
 
-    render(new TripInfoView(), tripMainElement, RenderPosition.AFTERBEGIN);
-    render(new FilterView(), tripControlsElement);
+    const filters = generateFilter(this.#tripPoints);
+
+    render(new FilterView({filters}), tripControlsElement);
+
+    if (!this.#tripPoints.length) {
+      render(new NoTripPointView(), tripEventsElement);
+      return;
+    }
+
+    render(new TripInfoView({
+      tripPoints: this.#tripPoints,
+      destinations: this.#destinations,
+      offers: this.#offers
+    }), tripMainElement, RenderPosition.AFTERBEGIN);
+
     render(new SortView(), tripEventsElement);
+
     render(this.#contentComponent, tripEventsElement);
 
     for (let i = 0; i < this.#tripPoints.length; i++) {
-      this.#renderTripEvent(this.#tripPoints[i], this.#destinations);
+      this.#renderTripEvent(this.#tripPoints[i]);
     }
   }
 }

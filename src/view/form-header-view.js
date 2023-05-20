@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {DATE_TIME_FORMAT, TRIP_TYPES} from '../const.js';
+import {DatetimeFormat, TRIP_TYPES} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 
 const createEventTypeDropdownTemplate = () =>
@@ -17,11 +17,10 @@ const createDestinationOptionsTemplate = (destinations) =>
 const createFormHeaderTemplate = (point, destinationList, destination) => {
   const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
 
-  const startDatetime = dateFrom ? formatDate(dateFrom, DATE_TIME_FORMAT.formDateTime) : '';
-  const endDatetime = dateTo ? formatDate(dateTo, DATE_TIME_FORMAT.formDateTime) : '';
+  const startDatetime = dateFrom ? formatDate(dateFrom, DatetimeFormat.FORM_DATETIME) : '';
+  const endDatetime = dateTo ? formatDate(dateTo, DatetimeFormat.FORM_DATETIME) : '';
 
-  const pointType = type ? type : TRIP_TYPES[0];
-  const typeName = convertToTitleCase(pointType);
+  const typeName = type ? type : TRIP_TYPES[0];
 
   const destinationName = destination.name ? destination.name : '';
 
@@ -31,7 +30,7 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
     <div class="event__type-wrapper">
       <label class="event__type  event__type-btn" for="event-type-toggle-1">
         <span class="visually-hidden">Choose event type</span>
-        <img class="event__type-icon" width="17" height="17" src="img/icons/${pointType}.png" alt="Event type icon">
+        <img class="event__type-icon" width="17" height="17" src="img/icons/${typeName}.png" alt="Event type icon">
       </label>
       <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
