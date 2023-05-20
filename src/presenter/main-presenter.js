@@ -6,6 +6,7 @@ import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
 import {generateFilter} from '../mock/filter.js';
+import {updateItem} from '../utils.js';
 
 export default class MainPresenter {
   #contentComponent = new TripEventsListView();
@@ -18,6 +19,7 @@ export default class MainPresenter {
   #tripPoints = [];
   #destinations = [];
   #offers = [];
+  #pointPresenters = new Map();
 
   constructor({parentContainer, pointsModel, offersModel, destinationsModel}) {
     this.#parentContainer = parentContainer;
@@ -30,10 +32,17 @@ export default class MainPresenter {
     const tripPointPresenter = new TripPointPresenter({
       parentContainer: this.#contentComponent.element,
       offersModel: this.#offersModel,
-      destinationsModel: this.#destinationsModel
+      destinationsModel: this.#destinationsModel,
+      onDataChange: this.#handlePointChange
     });
 
     tripPointPresenter.init(tripPoint);
+    this.#pointPresenters.set(tripPoint.id, tripPointPresenter);
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#tripPoints = updateItem(this.#tripPoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
   };
 
   init() {

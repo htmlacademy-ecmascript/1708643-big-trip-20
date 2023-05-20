@@ -71,6 +71,9 @@ const comparePointsByDate = (firstPoint, secondPoint) => {
   return result ? -result : firstDate.isAfter(secondDate);
 };
 
+const updateItem = (items, update) =>
+  items.map((item) => item.id === update.id ? update : item);
+
 export {
   comparePointsByDate,
   convertToTitleCase,
@@ -79,5 +82,6 @@ export {
   getDuration,
   isTripPointInFuture,
   isTripPointInPresent,
-  isTripPointInPast
+  isTripPointInPast,
+  updateItem
 };

@@ -8,16 +8,21 @@ import FormOffersView from '../view/form-offers-view.js';
 
 export default class TripPointPresenter {
   #parentContainer = null;
+  #handleDataChange = null;
+
   #offersModel = null;
   #destinationsModel = null;
 
   #tripPointComponent = null;
   #formComponent = null;
 
-  constructor({parentContainer, offersModel, destinationsModel}) {
+  #tripPoint = null;
+
+  constructor({parentContainer, offersModel, destinationsModel, onDataChange}) {
     this.#parentContainer = parentContainer;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
+    this.#handleDataChange = onDataChange;
   }
 
   #replaceTripPointToForm = () => {
@@ -45,6 +50,10 @@ export default class TripPointPresenter {
     this.#replaceFormToTripPoint();
   };
 
+  #handleFavoriteClick = () => {
+    this.#handleDataChange({...this.#tripPoint, 'is_favorite': !this.#tripPoint.is_favorite});
+  };
+
   #handleFormSubmit = () => {
     this.#replaceFormToTripPoint();
   };
@@ -55,18 +64,21 @@ export default class TripPointPresenter {
   };
 
   init(tripPoint) {
-    const offers = this.#offersModel.getByType(tripPoint.type);
-    const destination = this.#destinationsModel.getById(tripPoint.id);
+    this.#tripPoint = tripPoint;
+
+    const offers = this.#offersModel.getByType(this.#tripPoint.type);
+    const destination = this.#destinationsModel.getById(this.#tripPoint.destination);
     const destinations = this.#destinationsModel.destinations;
 
     const prevPointComponent = this.#tripPointComponent;
     const prevFormComponent = this.#formComponent;
 
     this.#tripPointComponent = new TripPointView({
-      tripPoint: tripPoint,
+      tripPoint: this.#tripPoint,
       offers: offers,
       destination: destination,
-      onRollupButtonClick: this.#handleRollupButtonDownClick
+      onRollupButtonClick: this.#handleRollupButtonDownClick,
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#formComponent = new EditFormView({
@@ -77,7 +89,7 @@ export default class TripPointPresenter {
     const formDetailsComponent = new FormDetailsView();
 
     render(new FormHeaderView({
-      tripPoint: tripPoint,
+      tripPoint: this.#tripPoint,
       destinationList: destinations,
       destination: destination,
       onRollupButtonClick: this.#handleRollupButtonUpClick
