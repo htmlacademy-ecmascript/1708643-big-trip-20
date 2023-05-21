@@ -48,6 +48,11 @@ const FilterStubText = {
   PAST: 'There are no past events now'
 };
 
+const PointMode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_TYPES,
@@ -56,5 +61,6 @@ export {
   MSEC_IN_HOUR,
   MSEC_IN_DAY,
   FilterType,
-  FilterStubText
+  FilterStubText,
+  PointMode
 };

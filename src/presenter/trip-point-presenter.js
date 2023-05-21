@@ -5,10 +5,12 @@ import FormHeaderView from '../view/form-header-view.js';
 import FormDetailsView from '../view/form-details-view.js';
 import FormDestinationView from '../view/form-destination-view.js';
 import FormOffersView from '../view/form-offers-view.js';
+import {PointMode} from '../const.js';
 
 export default class TripPointPresenter {
   #parentContainer = null;
   #handleDataChange = null;
+  #handleModeChange = null;
 
   #offersModel = null;
   #destinationsModel = null;
@@ -17,22 +19,33 @@ export default class TripPointPresenter {
   #formComponent = null;
 
   #tripPoint = null;
+  #mode = PointMode.DEFAULT;
 
-  constructor({parentContainer, offersModel, destinationsModel, onDataChange}) {
+  constructor({
+    parentContainer,
+    offersModel,
+    destinationsModel,
+    onDataChange,
+    onModeChange
+  }) {
     this.#parentContainer = parentContainer;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#handleDataChange = onDataChange;
+    this.#handleModeChange = onModeChange;
   }
 
   #replaceTripPointToForm = () => {
     replace(this.#formComponent, this.#tripPointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
+    this.#handleModeChange();
+    this.#mode = PointMode.EDITING;
   };
 
   #replaceFormToTripPoint = () => {
     replace(this.#tripPointComponent, this.#formComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
+    this.#mode = PointMode.DEFAULT;
   };
 
   #escKeyDownHandler = (evt) => {
@@ -61,6 +74,12 @@ export default class TripPointPresenter {
   destroy = () => {
     remove(this.#tripPointComponent);
     remove(this.#formComponent);
+  };
+
+  resetView = () => {
+    if (this.#mode !== PointMode.DEFAULT) {
+      this.#replaceFormToTripPoint();
+    }
   };
 
   init(tripPoint) {
@@ -113,11 +132,11 @@ export default class TripPointPresenter {
       return;
     }
 
-    if (this.#parentContainer.contains(prevPointComponent.element)) {
+    if (this.#mode === PointMode.DEFAULT) {
       replace(this.#tripPointComponent, prevPointComponent);
     }
 
-    if (this.#parentContainer.contains(prevFormComponent.element)) {
+    if (this.#mode === PointMode.EDITING) {
       replace(this.#formComponent, prevFormComponent);
     }
 
