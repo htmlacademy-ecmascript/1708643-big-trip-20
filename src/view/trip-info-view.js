@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {DatetimeFormat} from '../const.js';
+import {DatetimeFormat, TRIP_CITY_LIMIT} from '../const.js';
 import {comparePointsByDate, formatDate} from '../utils.js';
 
 const createTripInfoMainTemplate = (points, destinations) => {
@@ -12,19 +12,10 @@ const createTripInfoMainTemplate = (points, destinations) => {
   destinationNames = destinationNames.filter((el, i, array) => array[i] !== array[i + 1]);
 
   let title;
-
-  switch (destinationNames.length) {
-    case 1:
-      title = destinationNames[0];
-      break;
-    case 2:
-      title = `${destinationNames[0]} &mdash; ${destinationNames[1]}`;
-      break;
-    case 3:
-      title = `${destinationNames[0]} &mdash; ${destinationNames[1]} &mdash; ${destinationNames[2]}`;
-      break;
-    default:
-      title = `${destinationNames[0]} &mdash; &hellip; &mdash; ${destinationNames[destinationNames.length - 1]}`;
+  if (destinationNames.length > TRIP_CITY_LIMIT) {
+    title = `${destinationNames[0]} &mdash; &hellip; &mdash; ${destinationNames[destinationNames.length - 1]}`;
+  } else {
+    title = destinationNames.join(' &mdash; ');
   }
 
   return `<div class="trip-info__main">

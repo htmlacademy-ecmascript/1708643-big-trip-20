@@ -1,5 +1,7 @@
 const POINT_LIST_RENDER_COUNT = 3;
 
+const TRIP_CITY_LIMIT = 3;
+
 const TRIP_TYPES = [
   'taxi',
   'bus',
@@ -55,6 +57,7 @@ const PointMode = {
 
 export {
   POINT_LIST_RENDER_COUNT,
+  TRIP_CITY_LIMIT,
   TRIP_TYPES,
   DatetimeFormat,
   DurationFormat,
