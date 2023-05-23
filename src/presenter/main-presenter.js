@@ -10,6 +10,7 @@ import {updateItem} from '../utils.js';
 
 export default class MainPresenter {
   #contentComponent = new TripEventsListView();
+  #sortComponent = null;
 
   #parentContainer = null;
   #pointsModel = null;
@@ -41,6 +42,14 @@ export default class MainPresenter {
     this.#pointPresenters.set(tripPoint.id, tripPointPresenter);
   };
 
+  #renderSort = (parentElement) => {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    });
+
+    render(this.#sortComponent, parentElement);
+  };
+
   #handlePointChange = (updatedPoint) => {
     this.#tripPoints = updateItem(this.#tripPoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
@@ -48,6 +57,10 @@ export default class MainPresenter {
 
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handleSortTypeChange = (sortType) => {
+
   };
 
   init() {
@@ -74,7 +87,7 @@ export default class MainPresenter {
       offers: this.#offers
     }), tripMainElement, RenderPosition.AFTERBEGIN);
 
-    render(new SortView(), tripEventsElement);
+    this.#renderSort(tripEventsElement);
 
     render(this.#contentComponent, tripEventsElement);
 
