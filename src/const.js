@@ -58,7 +58,9 @@ const PointMode = {
 const SortType = {
   DAY: 'DAY',
   PRICE: 'PRICE',
-  TIME: 'TIME'
+  TIME: 'TIME',
+  EVENT: 'EVENT',
+  OFFERS: 'OFFERS'
 };
 
 export {
