@@ -1,5 +1,7 @@
 const POINT_LIST_RENDER_COUNT = 3;
 
+const TRIP_CITY_LIMIT = 3;
+
 const TRIP_TYPES = [
   'taxi',
   'bus',
@@ -48,13 +50,20 @@ const FilterStubText = {
   PAST: 'There are no past events now'
 };
 
+const PointMode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
+  TRIP_CITY_LIMIT,
   TRIP_TYPES,
   DatetimeFormat,
   DurationFormat,
   MSEC_IN_HOUR,
   MSEC_IN_DAY,
   FilterType,
-  FilterStubText
+  FilterStubText,
+  PointMode
 };
