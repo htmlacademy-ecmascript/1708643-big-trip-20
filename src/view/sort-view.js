@@ -33,10 +33,10 @@ export default class SortView extends AbstractView {
 
   #handleSortTypeChange = null;
 
-  constructor ({onSortTypeChange}) {
+  constructor ({handleSortTypeChange}) {
     super();
 
-    this.#handleSortTypeChange = onSortTypeChange;
+    this.#handleSortTypeChange = handleSortTypeChange;
     this.element.addEventListener('click', this.#sortTypeChangeHandler);
   }
 

@@ -36,8 +36,8 @@ export default class MainPresenter {
       parentContainer: this.#contentComponent.element,
       offersModel: this.#offersModel,
       destinationsModel: this.#destinationsModel,
-      onDataChange: this.#handlePointChange,
-      onModeChange: this.#handleModeChange
+      handlePointChange: this.#handlePointChange,
+      handleModeChange: this.#handleModeChange
     });
 
     tripPointPresenter.init(tripPoint);
@@ -46,7 +46,7 @@ export default class MainPresenter {
 
   #renderSort = () => {
     this.#sortComponent = new SortView({
-      onSortTypeChange: this.#handleSortTypeChange
+      handleSortTypeChange: this.#handleSortTypeChange
     });
 
     render(this.#sortComponent, this.#tripEventsElement);
