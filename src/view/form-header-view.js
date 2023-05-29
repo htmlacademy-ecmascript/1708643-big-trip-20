@@ -82,14 +82,14 @@ export default class FormHeaderView extends AbstractView {
   #destination = null;
   #handleRollupButtonClick = null;
 
-  constructor({tripPoint, destinationList, destination, onRollupButtonClick}) {
+  constructor({tripPoint, destinationList, destination, handleRollupButtonUpClick}) {
     super();
 
     this.#point = tripPoint;
     this.#destinationList = destinationList;
     this.#destination = destination;
 
-    this.#handleRollupButtonClick = onRollupButtonClick;
+    this.#handleRollupButtonClick = handleRollupButtonUpClick;
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#rollupButtonClickHandler);
   }

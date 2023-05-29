@@ -7,12 +7,14 @@ const createEditFormTemplate = () =>
   </li>`;
 
 export default class EditFormView extends AbstractView {
+  #tripPoint = null;
   #handleFormSubmit = null;
 
-  constructor({onFormSubmit}) {
+  constructor({tripPoint, handleFormSubmit}) {
     super();
 
-    this.#handleFormSubmit = onFormSubmit;
+    this.#tripPoint = tripPoint;
+    this.#handleFormSubmit = handleFormSubmit;
 
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
@@ -24,6 +26,6 @@ export default class EditFormView extends AbstractView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#tripPoint);
   };
 }

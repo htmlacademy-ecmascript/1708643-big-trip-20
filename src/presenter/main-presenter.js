@@ -36,7 +36,7 @@ export default class MainPresenter {
       parentContainer: this.#contentComponent.element,
       offersModel: this.#offersModel,
       destinationsModel: this.#destinationsModel,
-      handlePointChange: this.#handlePointChange,
+      handleDataChange: this.#handlePointChange,
       handleModeChange: this.#handleModeChange
     });
 

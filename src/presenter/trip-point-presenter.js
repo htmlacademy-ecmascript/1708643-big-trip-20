@@ -67,7 +67,8 @@ export default class TripPointPresenter {
     this.#handleDataChange({...this.#tripPoint, 'is_favorite': !this.#tripPoint.is_favorite});
   };
 
-  #handleFormSubmit = () => {
+  #handleFormSubmit = (tripPoint) => {
+    this.#handleDataChange(tripPoint);
     this.#replaceFormToTripPoint();
   };
 
@@ -101,7 +102,8 @@ export default class TripPointPresenter {
     });
 
     this.#formComponent = new EditFormView({
-      onFormSubmit: this.#handleFormSubmit
+      tripPoint: this.#tripPoint,
+      handleFormSubmit: this.#handleFormSubmit
     });
 
     const formElement = this.#formComponent.element.querySelector('.event');
@@ -111,7 +113,7 @@ export default class TripPointPresenter {
       tripPoint: this.#tripPoint,
       destinationList: destinations,
       destination: destination,
-      onRollupButtonClick: this.#handleRollupButtonUpClick
+      handleRollupButtonUpClick: this.#handleRollupButtonUpClick
     }), formElement);
 
     render(formDetailsComponent, formElement);
