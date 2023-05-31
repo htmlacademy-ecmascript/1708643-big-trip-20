@@ -1,4 +1,3 @@
-import AbstractView from '../framework/view/abstract-view.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 const createEditFormTemplate = () =>
