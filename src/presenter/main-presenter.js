@@ -55,9 +55,7 @@ export default class MainPresenter {
   #renderTripEventsList = () => {
     render(this.#contentComponent, this.#tripEventsElement);
 
-    for (let i = 0; i < this.#tripPoints.length; i++) {
-      this.#renderTripEvent(this.#tripPoints[i]);
-    }
+    this.#tripPoints.forEach((point) => this.#renderTripEvent(point));
   };
 
   #clearTripEventsList() {

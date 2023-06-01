@@ -97,8 +97,8 @@ export default class TripPointPresenter {
       tripPoint: this.#tripPoint,
       offers: offers,
       destination: destination,
-      onRollupButtonClick: this.#handleRollupButtonDownClick,
-      onFavoriteClick: this.#handleFavoriteClick,
+      handleRollupButtonDownClick: this.#handleRollupButtonDownClick,
+      handleFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#formComponent = new EditFormView({
