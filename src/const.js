@@ -55,6 +55,14 @@ const PointMode = {
   EDITING: 'EDITING',
 };
 
+const SortType = {
+  DAY: 'DAY',
+  PRICE: 'PRICE',
+  TIME: 'TIME',
+  EVENT: 'EVENT',
+  OFFERS: 'OFFERS'
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_CITY_LIMIT,
@@ -65,5 +73,6 @@ export {
   MSEC_IN_DAY,
   FilterType,
   FilterStubText,
-  PointMode
+  PointMode,
+  SortType
 };

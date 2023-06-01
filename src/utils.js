@@ -71,11 +71,27 @@ const comparePointsByDate = (firstPoint, secondPoint) => {
   return result ? -result : firstDate.isAfter(secondDate);
 };
 
+const comparePointsByPrice = (firstPoint, secondPoint) => {
+  const firstPrice = firstPoint.base_price;
+  const secondPrice = secondPoint.base_price;
+
+  return secondPrice - firstPrice;
+};
+
+const comparePointsByTime = (firstPoint, secondPoint) => {
+  const firstDuration = dayjs(firstPoint.date_to).diff(dayjs(firstPoint.date_from));
+  const secondDuration = dayjs(secondPoint.date_to).diff(dayjs(secondPoint.date_from));
+
+  return secondDuration - firstDuration;
+};
+
 const updateItem = (items, update) =>
   items.map((item) => item.id === update.id ? update : item);
 
 export {
   comparePointsByDate,
+  comparePointsByPrice,
+  comparePointsByTime,
   convertToTitleCase,
   convertKeysToCamelCase,
   formatDate,

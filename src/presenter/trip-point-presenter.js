@@ -25,14 +25,14 @@ export default class TripPointPresenter {
     parentContainer,
     offersModel,
     destinationsModel,
-    onDataChange,
-    onModeChange
+    handleDataChange,
+    handleModeChange
   }) {
     this.#parentContainer = parentContainer;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
-    this.#handleDataChange = onDataChange;
-    this.#handleModeChange = onModeChange;
+    this.#handleDataChange = handleDataChange;
+    this.#handleModeChange = handleModeChange;
   }
 
   #replaceTripPointToForm = () => {
