@@ -88,7 +88,7 @@ export default class TripPointPresenter {
 
     const offers = this.#offersModel.getByType(this.#tripPoint.type);
     const destination = this.#destinationsModel.getById(this.#tripPoint.destination);
-    const destinations = this.#destinationsModel.destinations;
+    const destinations = [...this.#destinationsModel.destinations];
 
     const prevPointComponent = this.#tripPointComponent;
     const prevFormComponent = this.#formComponent;
@@ -103,31 +103,13 @@ export default class TripPointPresenter {
 
     this.#formComponent = new EditFormView({
       tripPoint: this.#tripPoint,
-      handleFormSubmit: this.#handleFormSubmit
+      destinationList: destinations,
+      offersList: offers,
+      pointDestination: destination,
+      handleFormSubmit: this.#handleFormSubmit,
+      handleRollupButtonUpClick: this.#handleRollupButtonUpClick
     });
 
-    const formElement = this.#formComponent.element.querySelector('.event');
-    const formDetailsComponent = new FormDetailsView();
-
-    render(new FormHeaderView({
-      tripPoint: this.#tripPoint,
-      destinationList: destinations,
-      destination: destination,
-      handleRollupButtonUpClick: this.#handleRollupButtonUpClick
-    }), formElement);
-
-    render(formDetailsComponent, formElement);
-    if (destination) {
-      render(new FormDestinationView({destination: destination}),
-        formDetailsComponent.element);
-    }
-
-    if (offers.length) {
-      render(new FormOffersView({
-        pointOffers: tripPoint.offers,
-        offers: offers
-      }), formDetailsComponent.element);
-    }
 
     if (prevPointComponent === null || prevFormComponent === null) {
       render(this.#tripPointComponent, this.#parentContainer);
