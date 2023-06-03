@@ -1,10 +1,6 @@
 import {render, replace, remove} from '../framework/render.js';
 import TripPointView from '../view/trip-point-view.js';
 import EditFormView from '../view/edit-form-view.js';
-import FormHeaderView from '../view/form-header-view.js';
-import FormDetailsView from '../view/form-details-view.js';
-import FormDestinationView from '../view/form-destination-view.js';
-import FormOffersView from '../view/form-offers-view.js';
 import {PointMode} from '../const.js';
 
 export default class TripPointPresenter {
