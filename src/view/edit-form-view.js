@@ -150,7 +150,7 @@ export default class EditFormView extends AbstractStatefulView {
   }) {
     super();
 
-    this._setState(tripPoint);
+    this._setState(EditFormView.parsePointToState(tripPoint));
     this.#destinationList = destinationList;
     this.#offersList = offersList;
     this.#destination = pointDestination;
@@ -179,11 +179,19 @@ export default class EditFormView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this._state);
+    this.#handleFormSubmit(EditFormView.parseStateToPoint(this._state));
   };
 
   #rollupButtonClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleRollupButtonClick();
   };
+
+  static parsePointToState(point) {
+    return {...point};
+  }
+
+  static parseStateToPoint(state) {
+    return {...state};
+  }
 }
