@@ -101,7 +101,6 @@ export default class TripPointPresenter {
       tripPoint: this.#tripPoint,
       destinationList: destinations,
       offersList: offers,
-      pointDestination: destination,
       handleFormSubmit: this.#handleFormSubmit,
       handleRollupButtonUpClick: this.#handleRollupButtonUpClick
     });
