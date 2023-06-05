@@ -175,6 +175,8 @@ export default class EditFormView extends AbstractStatefulView {
       .addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#rollupButtonClickHandler);
+    this.element.querySelector('.event__type-group')
+      .addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
   };
@@ -189,12 +191,22 @@ export default class EditFormView extends AbstractStatefulView {
     this.#handleRollupButtonClick();
   };
 
+  #typeChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      type: evt.target.value,
+      offers: []
+    });
+  };
+
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     const destination = this.#destinationList.find((el) => el.name === evt.target.value);
-    this.updateElement({
-      destination: destination.id
-    });
+    if (destination) {
+      this.updateElement({
+        destination: destination.id
+      });
+    }
   };
 
   static parsePointToState = (point) => ({...point});
