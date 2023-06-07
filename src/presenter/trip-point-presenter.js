@@ -60,7 +60,12 @@ export default class TripPointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#handleDataChange({...this.#tripPoint, 'is_favorite': !this.#tripPoint.is_favorite});
+    this.#handleDataChange(
+      {
+        ...this.#tripPoint,
+        'is_favorite': !this.#tripPoint.is_favorite
+      }
+    );
   };
 
   #handleFormSubmit = (tripPoint) => {
@@ -82,16 +87,17 @@ export default class TripPointPresenter {
   init(tripPoint) {
     this.#tripPoint = tripPoint;
 
-    const offers = this.#offersModel.getByType(this.#tripPoint.type);
+    const typeOffers = this.#offersModel.getByType(this.#tripPoint.type);
     const destination = this.#destinationsModel.getById(this.#tripPoint.destination);
     const destinations = [...this.#destinationsModel.destinations];
+    const offers = [...this.#offersModel.offers];
 
     const prevPointComponent = this.#tripPointComponent;
     const prevFormComponent = this.#formComponent;
 
     this.#tripPointComponent = new TripPointView({
       tripPoint: this.#tripPoint,
-      offers: offers,
+      offers: typeOffers,
       destination: destination,
       handleRollupButtonDownClick: this.#handleRollupButtonDownClick,
       handleFavoriteClick: this.#handleFavoriteClick,
