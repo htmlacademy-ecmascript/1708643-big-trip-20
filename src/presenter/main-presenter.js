@@ -36,7 +36,7 @@ export default class MainPresenter {
       parentContainer: this.#contentComponent.element,
       offersModel: this.#offersModel,
       destinationsModel: this.#destinationsModel,
-      handlePointChange: this.#handlePointChange,
+      handleDataChange: this.#handlePointChange,
       handleModeChange: this.#handleModeChange
     });
 
@@ -55,9 +55,7 @@ export default class MainPresenter {
   #renderTripEventsList = () => {
     render(this.#contentComponent, this.#tripEventsElement);
 
-    for (let i = 0; i < this.#tripPoints.length; i++) {
-      this.#renderTripEvent(this.#tripPoints[i]);
-    }
+    this.#tripPoints.forEach((point) => this.#renderTripEvent(point));
   };
 
   #clearTripEventsList() {
