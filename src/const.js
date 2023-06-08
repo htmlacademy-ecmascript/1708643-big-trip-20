@@ -27,7 +27,9 @@ const DatetimeFormat = {
   DATE: 'YYYY-MM-DD',
   TIME: 'HH:mm',
   SHORT_DATE: 'MMM DD',
-  FORM_DATETIME: 'DD/MM/YY HH:mm'
+  FORM_DATETIME: 'DD/MM/YY HH:mm',
+  PICKER_DATETIME: 'd/m/y H:i',
+  PICKER_ISO_DATE: 'Z'
 };
 
 const DurationFormat = {

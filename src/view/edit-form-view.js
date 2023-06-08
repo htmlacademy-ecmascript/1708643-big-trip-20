@@ -1,6 +1,9 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import {DatetimeFormat, TRIP_TYPES} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
+import flatpickr from 'flatpickr';
+
+import 'flatpickr/dist/flatpickr.min.css';
 
 const createEventTypeDropdownTemplate = () =>
   TRIP_TYPES.map((type) =>
@@ -144,6 +147,8 @@ export default class EditFormView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleRollupButtonClick = null;
 
+  #datepickers = null;
+
   constructor({
     tripPoint,
     destinationList,
@@ -171,6 +176,12 @@ export default class EditFormView extends AbstractStatefulView {
     );
   }
 
+  removeElement = () => {
+    super.removeElement();
+
+    this.#datepickers.forEach((datepicker) => datepicker.destroy());
+  };
+
   _restoreHandlers = () => {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
@@ -184,6 +195,27 @@ export default class EditFormView extends AbstractStatefulView {
       .addEventListener('change', this.#priceChangeHandler);
     this.element.querySelectorAll('.event__offer-checkbox')
       .forEach((offer) => offer.addEventListener('change', this.#offerChangeHandler));
+
+    this.#setDatepickers();
+  };
+
+  #setDatepickers = () => {
+    const dateElements = this.element.querySelectorAll('.event__input--time');
+
+    this.#datepickers = [...dateElements].map((element, id) => {
+      const minDate = id ? dateElements[0].value : null;
+      return flatpickr(
+        element,
+        {
+          altInput: true,
+          altFormat: DatetimeFormat.PICKER_DATETIME,
+          allowInput: true,
+          dateFormat: DatetimeFormat.PICKER_ISO_DATE,
+          enableTime: true,
+          minDate,
+          'time_24hr': true
+        });
+    });
   };
 
   #formSubmitHandler = (evt) => {
