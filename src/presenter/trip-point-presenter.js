@@ -63,7 +63,7 @@ export default class TripPointPresenter {
     this.#handleDataChange(
       {
         ...this.#tripPoint,
-        'is_favorite': !this.#tripPoint.is_favorite
+        'is_favorite': !this.#tripPoint['is_favorite']
       }
     );
   };
