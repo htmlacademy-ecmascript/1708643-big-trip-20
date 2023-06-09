@@ -204,16 +204,22 @@ export default class EditFormView extends AbstractStatefulView {
 
     this.#datepickers = [...dateElements].map((element, id) => {
       const minDate = id ? dateElements[0].value : null;
+      const maxDate = id ? null : dateElements[1].value;
+
       return flatpickr(
         element,
         {
-          altInput: true,
-          altFormat: DatetimeFormat.PICKER_DATETIME,
           allowInput: true,
-          dateFormat: DatetimeFormat.PICKER_ISO_DATE,
+          defaultDate: element.value,
+          dateFormat: DatetimeFormat.PICKER_DATETIME,
           enableTime: true,
           minDate,
-          'time_24hr': true
+          maxDate,
+          'time_24hr': true,
+          locale: {
+            firstDayOfWeek: 1,
+          },
+          onChange: this.#dateChangeHandler
         });
     });
   };
@@ -268,6 +274,16 @@ export default class EditFormView extends AbstractStatefulView {
         'offers': updatedOffers
       });
     }
+  };
+
+  #dateChangeHandler = ([userDate], dateStr, datepicker) => {
+    const fieldName = datepicker.element.name === 'event-start-time'
+      ? 'date_from'
+      : 'date_to';
+
+    this._setState({
+      [fieldName]: formatDate(userDate)
+    });
   };
 
   static parsePointToState = (point) => ({...point});
