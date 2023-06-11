@@ -31,6 +31,18 @@ export default class MainPresenter {
     this.#destinationsModel = destinationsModel;
   }
 
+  get points() {
+    return this.#pointsModel.points;
+  }
+
+  get offers() {
+    return this.#offersModel.offers;
+  }
+
+  get destinations() {
+    return this.#destinationsModel.destinations;
+  }
+
   #renderTripEvent = (tripPoint) => {
     const tripPointPresenter = new TripPointPresenter({
       parentContainer: this.#contentComponent.element,
