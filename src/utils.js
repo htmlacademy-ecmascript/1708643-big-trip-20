@@ -85,9 +85,6 @@ const comparePointsByTime = (firstPoint, secondPoint) => {
   return secondDuration - firstDuration;
 };
 
-const updateItem = (items, update) =>
-  items.map((item) => item.id === update.id ? update : item);
-
 export {
   comparePointsByDate,
   comparePointsByPrice,
@@ -98,6 +95,5 @@ export {
   getDuration,
   isTripPointInFuture,
   isTripPointInPresent,
-  isTripPointInPast,
-  updateItem
+  isTripPointInPast
 };
