@@ -1,7 +1,7 @@
 import {render, replace, remove} from '../framework/render.js';
 import TripPointView from '../view/trip-point-view.js';
 import EditFormView from '../view/edit-form-view.js';
-import {PointMode} from '../const.js';
+import {PointMode, UserAction, UpdateType} from '../const.js';
 
 export default class TripPointPresenter {
   #parentContainer = null;
@@ -61,6 +61,8 @@ export default class TripPointPresenter {
 
   #handleFavoriteClick = () => {
     this.#handleDataChange(
+      UserAction.UPDATE_TASK,
+      UpdateType.PATCH,
       {
         ...this.#tripPoint,
         'is_favorite': !this.#tripPoint['is_favorite']
@@ -69,7 +71,11 @@ export default class TripPointPresenter {
   };
 
   #handleFormSubmit = (tripPoint) => {
-    this.#handleDataChange(tripPoint);
+    this.#handleDataChange(
+      UserAction.UPDATE_TASK,
+      UpdateType.MINOR,
+      tripPoint
+    );
     this.#replaceFormToTripPoint();
   };
 
