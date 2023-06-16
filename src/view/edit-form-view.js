@@ -145,6 +145,7 @@ export default class EditFormView extends AbstractStatefulView {
   #offersList = null;
 
   #handleFormSubmit = null;
+  #handleDeleteClick = null;
   #handleRollupButtonClick = null;
 
   #datepickers = null;
@@ -154,6 +155,7 @@ export default class EditFormView extends AbstractStatefulView {
     destinationList,
     offersList,
     handleFormSubmit,
+    handleDeleteClick,
     handleRollupButtonUpClick
   }) {
     super();
@@ -163,6 +165,7 @@ export default class EditFormView extends AbstractStatefulView {
     this.#offersList = offersList;
 
     this.#handleFormSubmit = handleFormSubmit;
+    this.#handleDeleteClick = handleDeleteClick;
     this.#handleRollupButtonClick = handleRollupButtonUpClick;
 
     this._restoreHandlers();
@@ -185,6 +188,8 @@ export default class EditFormView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formDeleteClickHandler);
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#rollupButtonClickHandler);
     this.element.querySelector('.event__type-group')
@@ -227,6 +232,11 @@ export default class EditFormView extends AbstractStatefulView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(EditFormView.parseStateToPoint(this._state));
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditFormView.parseStateToPoint(this._state));
   };
 
   #rollupButtonClickHandler = (evt) => {

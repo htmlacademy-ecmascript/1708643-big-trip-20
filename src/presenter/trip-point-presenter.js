@@ -84,6 +84,14 @@ export default class TripPointPresenter {
     this.#replaceFormToTripPoint();
   };
 
+  #handleDeleteClick = (tripPoint) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      tripPoint
+    );
+  };
+
   destroy = () => {
     remove(this.#tripPointComponent);
     remove(this.#formComponent);
@@ -119,6 +127,7 @@ export default class TripPointPresenter {
       destinationList: destinations,
       offersList: offers,
       handleFormSubmit: this.#handleFormSubmit,
+      handleDeleteClick: this.#handleDeleteClick,
       handleRollupButtonUpClick: this.#handleRollupButtonUpClick
     });
 
