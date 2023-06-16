@@ -1,4 +1,4 @@
-import {RenderPosition, render} from '../framework/render.js';
+import {RenderPosition, render, remove} from '../framework/render.js';
 import TripInfoView from './../view/trip-info-view.js';
 import FilterView from './../view/filter-view.js';
 import SortView from './../view/sort-view.js';
@@ -11,8 +11,11 @@ import {SortType, UpdateType, UserAction} from '../const.js';
 
 export default class MainPresenter {
   #tripEventsElement = document.querySelector('.trip-events');
+  #tripMainElement = document.querySelector('.trip-main');
+
   #contentComponent = new TripEventsListView();
   #sortComponent = null;
+  #noTripPointComponent = null;
 
   #pointsModel = null;
   #offersModel = null;
@@ -54,6 +57,63 @@ export default class MainPresenter {
     return this.#destinationsModel.destinations;
   }
 
+  init = () => {
+    this.#renderPage();
+  };
+
+  #renderPage = () => {
+    this.#renderFilters();
+
+    if (!this.points.length) {
+      this.#renderNoTripPointComponent();
+      return;
+    }
+
+    this.#renderTripInfo();
+    this.#renderSort();
+    this.#renderTripEventsListComponent();
+
+    this.points.forEach((point) => this.#renderTripEvent(point));
+  };
+
+  #clearPage = ({resetSortType = false} = {}) => {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+
+    remove(this.#sortComponent);
+    if (this.#noTripPointComponent) {
+      remove(this.#noTripPointComponent);
+    }
+
+    if (resetSortType) {
+      this.#currentSortType = SortType.DAY;
+    }
+  };
+
+  #renderFilters = () => {
+    const tripControlsElement = this.#tripMainElement.querySelector('.trip-controls__filters');
+    const filters = generateFilter(this.points);
+
+    render(new FilterView({filters}), tripControlsElement);
+  };
+
+  #renderNoTripPointComponent = () => {
+    this.#noTripPointComponent = new NoTripPointView();
+    render(this.#noTripPointComponent, this.#tripEventsElement);
+  };
+
+  #renderTripInfo = () => {
+    render(new TripInfoView({
+      tripPoints: this.points,
+      destinations: this.destinations,
+      offers: this.offers
+    }), this.#tripMainElement, RenderPosition.AFTERBEGIN);
+  };
+
+  #renderTripEventsListComponent = () => {
+    render(this.#contentComponent, this.#tripEventsElement);
+  };
+
   #renderTripEvent = (tripPoint) => {
     const tripPointPresenter = new TripPointPresenter({
       parentContainer: this.#contentComponent.element,
@@ -74,17 +134,6 @@ export default class MainPresenter {
 
     render(this.#sortComponent, this.#tripEventsElement);
   };
-
-  #renderTripEventsList = () => {
-    render(this.#contentComponent, this.#tripEventsElement);
-
-    this.points.forEach((point) => this.#renderTripEvent(point));
-  };
-
-  #clearTripEventsList() {
-    this.#pointPresenters.forEach((presenter) => presenter.destroy());
-    this.#pointPresenters.clear();
-  }
 
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
@@ -122,30 +171,7 @@ export default class MainPresenter {
     }
 
     this.#currentSortType = sortType;
-    this.#clearTripEventsList();
-    this.#renderTripEventsList();
+    this.#clearPage();
+    this.#renderPage();
   };
-
-  init() {
-    const tripMainElement = document.querySelector('.trip-main');
-    const tripControlsElement = tripMainElement.querySelector('.trip-controls__filters');
-
-    const filters = generateFilter(this.points);
-
-    render(new FilterView({filters}), tripControlsElement);
-
-    if (!this.points.length) {
-      render(new NoTripPointView(), this.#tripEventsElement);
-      return;
-    }
-
-    render(new TripInfoView({
-      tripPoints: this.points,
-      destinations: this.destinations,
-      offers: this.offers
-    }), tripMainElement, RenderPosition.AFTERBEGIN);
-
-    this.#renderSort();
-    this.#renderTripEventsList();
-  }
 }
