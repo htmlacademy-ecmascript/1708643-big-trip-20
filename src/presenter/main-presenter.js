@@ -58,18 +58,17 @@ export default class MainPresenter {
   }
 
   init = () => {
+    this.#renderTripInfo();
+    this.#renderFilters();
     this.#renderPage();
   };
 
   #renderPage = () => {
-    this.#renderFilters();
-
     if (!this.points.length) {
       this.#renderNoTripPointComponent();
       return;
     }
 
-    this.#renderTripInfo();
     this.#renderSort();
     this.#renderTripEventsListComponent();
 
@@ -155,8 +154,12 @@ export default class MainPresenter {
         this.#pointPresenters.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
+        this.#clearPage();
+        this.#renderPage();
         break;
       case UpdateType.MAJOR:
+        this.#clearPage({resetSortType: true});
+        this.#renderPage();
         break;
     }
   };
