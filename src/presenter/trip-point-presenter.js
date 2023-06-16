@@ -2,6 +2,7 @@ import {render, replace, remove} from '../framework/render.js';
 import TripPointView from '../view/trip-point-view.js';
 import EditFormView from '../view/edit-form-view.js';
 import {PointMode, UserAction, UpdateType} from '../const.js';
+import {isDateEqual, isPriceEqual} from '../utils.js';
 
 export default class TripPointPresenter {
   #parentContainer = null;
@@ -71,9 +72,13 @@ export default class TripPointPresenter {
   };
 
   #handleFormSubmit = (tripPoint) => {
+    const isMinorUpdate = !isDateEqual(this.#tripPoint['date_from'], tripPoint['date_from']) ||
+      !isDateEqual(this.#tripPoint['date_to'], tripPoint['date_to']) ||
+      !isPriceEqual(this.#tripPoint['base_price'], tripPoint['base_price']);
+
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       tripPoint
     );
     this.#replaceFormToTripPoint();

@@ -85,6 +85,12 @@ const comparePointsByTime = (firstPoint, secondPoint) => {
   return secondDuration - firstDuration;
 };
 
+const isDateEqual = (firstDate, secondDate) =>
+  dayjs(firstDate).isSame(secondDate, 'm');
+
+const isPriceEqual = (firstPrice, secondPrice) =>
+  firstPrice === secondPrice;
+
 export {
   comparePointsByDate,
   comparePointsByPrice,
@@ -95,5 +101,7 @@ export {
   getDuration,
   isTripPointInFuture,
   isTripPointInPresent,
-  isTripPointInPast
+  isTripPointInPast,
+  isDateEqual,
+  isPriceEqual
 };
