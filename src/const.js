@@ -57,11 +57,11 @@ const PointMode = {
 };
 
 const SortType = {
-  DAY: 'DAY',
-  PRICE: 'PRICE',
-  TIME: 'TIME',
-  EVENT: 'EVENT',
-  OFFERS: 'OFFERS'
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'
 };
 
 const UserAction = {

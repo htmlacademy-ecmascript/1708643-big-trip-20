@@ -60,10 +60,10 @@ export default class MainPresenter {
   init = () => {
     this.#renderTripInfo();
     this.#renderFilters();
-    this.#renderPage();
+    this.#renderContent();
   };
 
-  #renderPage = () => {
+  #renderContent = () => {
     if (!this.points.length) {
       this.#renderNoTripPointComponent();
       return;
@@ -75,7 +75,7 @@ export default class MainPresenter {
     this.points.forEach((point) => this.#renderTripEvent(point));
   };
 
-  #clearPage = ({resetSortType = false} = {}) => {
+  #clearContent = ({resetSortType = false} = {}) => {
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
 
@@ -128,6 +128,7 @@ export default class MainPresenter {
 
   #renderSort = () => {
     this.#sortComponent = new SortView({
+      currentSortType: this.#currentSortType,
       handleSortTypeChange: this.#handleSortTypeChange
     });
 
@@ -154,12 +155,12 @@ export default class MainPresenter {
         this.#pointPresenters.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
-        this.#clearPage();
-        this.#renderPage();
+        this.#clearContent();
+        this.#renderContent();
         break;
       case UpdateType.MAJOR:
-        this.#clearPage({resetSortType: true});
-        this.#renderPage();
+        this.#clearContent({resetSortType: true});
+        this.#renderContent();
         break;
     }
   };
@@ -174,7 +175,7 @@ export default class MainPresenter {
     }
 
     this.#currentSortType = sortType;
-    this.#clearPage();
-    this.#renderPage();
+    this.#clearContent();
+    this.#renderContent();
   };
 }
