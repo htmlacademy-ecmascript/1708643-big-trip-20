@@ -1,11 +1,9 @@
 import {RenderPosition, render, remove} from '../framework/render.js';
 import TripInfoView from './../view/trip-info-view.js';
-import FilterView from './../view/filter-view.js';
 import SortView from './../view/sort-view.js';
 import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
-import {generateFilter} from '../mock/filter.js';
 import {comparePointsByPrice, comparePointsByTime, comparePointsByDate} from '../utils.js';
 import {SortType, UpdateType, UserAction} from '../const.js';
 
@@ -59,7 +57,6 @@ export default class MainPresenter {
 
   init = () => {
     this.#renderTripInfo();
-    this.#renderFilters();
     this.#renderContent();
   };
 
@@ -87,13 +84,6 @@ export default class MainPresenter {
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }
-  };
-
-  #renderFilters = () => {
-    const tripControlsElement = this.#tripMainElement.querySelector('.trip-controls__filters');
-    const filters = generateFilter(this.points);
-
-    render(new FilterView({filters}), tripControlsElement);
   };
 
   #renderNoTripPointComponent = () => {
