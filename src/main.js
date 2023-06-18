@@ -17,8 +17,9 @@ const filterPresenter = new FilterPresenter({
 
 const mainPresenter = new MainPresenter({
   pointsModel: tripPointsModel,
-  offersModel: offersModel,
-  destinationsModel: destinationsModel
+  offersModel,
+  destinationsModel,
+  filterModel
 });
 
 filterPresenter.init();
