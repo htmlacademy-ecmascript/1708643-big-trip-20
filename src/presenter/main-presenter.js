@@ -5,7 +5,7 @@ import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
 import {comparePointsByPrice, comparePointsByTime, comparePointsByDate, getFilters} from '../utils.js';
-import {SortType, UpdateType, UserAction} from '../const.js';
+import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 
 export default class MainPresenter {
   #tripEventsElement = document.querySelector('.trip-events');
@@ -22,6 +22,7 @@ export default class MainPresenter {
 
   #pointPresenters = new Map();
   #currentSortType = SortType.DAY;
+  #currentFilterType = FilterType.EVERYTHING;
 
   constructor({pointsModel, offersModel, destinationsModel, filterModel}) {
     this.#pointsModel = pointsModel;
@@ -34,9 +35,9 @@ export default class MainPresenter {
   }
 
   get points() {
-    const filterType = this.#filterModel.filter;
+    this.#currentFilterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = getFilters()[filterType](points);
+    const filteredPoints = getFilters()[this.#currentFilterType](points);
 
     switch (this.#currentSortType) {
       case SortType.PRICE:
@@ -92,7 +93,9 @@ export default class MainPresenter {
   };
 
   #renderNoTripPointComponent = () => {
-    this.#noTripPointComponent = new NoTripPointView();
+    this.#noTripPointComponent = new NoTripPointView({
+      filterType: this.#currentFilterType
+    });
     render(this.#noTripPointComponent, this.#tripEventsElement);
   };
 
