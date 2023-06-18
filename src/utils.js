@@ -63,7 +63,7 @@ const isTripPointInPresent = (dateFrom, dateTo) =>
 const isTripPointInPast = (dateTo) =>
   dateTo && dayjs(dateTo).isBefore(dayjs());
 
-const getFilter = () => ({
+const getFilters = () => ({
   [FilterType.EVERYTHING]: (points) => points,
   [FilterType.FUTURE]: (points) => points.filter((point) => isTripPointInFuture(point.date_from)),
   [FilterType.PRESENT]: (points) => points.filter((point) => isTripPointInPresent(point.date_from, point.date_to)),
@@ -104,7 +104,7 @@ export {
   comparePointsByTime,
   convertToTitleCase,
   convertKeysToCamelCase,
-  getFilter,
+  getFilters,
   formatDate,
   getDuration,
   isTripPointInFuture,
