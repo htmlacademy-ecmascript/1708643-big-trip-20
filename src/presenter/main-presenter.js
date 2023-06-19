@@ -1,15 +1,13 @@
-import {RenderPosition, render, remove} from '../framework/render.js';
-import TripInfoView from './../view/trip-info-view.js';
+import {render, remove} from '../framework/render.js';
 import SortView from './../view/sort-view.js';
 import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
 import {comparePointsByPrice, comparePointsByTime, comparePointsByDate, getFilters} from '../utils.js';
-import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
+import {SortType, UpdateType, UserAction} from '../const.js';
 
 export default class MainPresenter {
   #tripEventsElement = document.querySelector('.trip-events');
-  #tripMainElement = document.querySelector('.trip-main');
 
   #contentComponent = new TripEventsListView();
   #sortComponent = null;
@@ -22,7 +20,6 @@ export default class MainPresenter {
 
   #pointPresenters = new Map();
   #currentSortType = SortType.DAY;
-  #currentFilterType = FilterType.EVERYTHING;
 
   constructor({pointsModel, offersModel, destinationsModel, filterModel}) {
     this.#pointsModel = pointsModel;
@@ -35,9 +32,8 @@ export default class MainPresenter {
   }
 
   get points() {
-    this.#currentFilterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = getFilters()[this.#currentFilterType](points);
+    const filteredPoints = getFilters()[this.filter](points);
 
     switch (this.#currentSortType) {
       case SortType.PRICE:
@@ -61,8 +57,11 @@ export default class MainPresenter {
     return this.#destinationsModel.destinations;
   }
 
+  get filter() {
+    return this.#filterModel.filter;
+  }
+
   init = () => {
-    this.#renderTripInfo();
     this.#renderContent();
   };
 
@@ -94,17 +93,9 @@ export default class MainPresenter {
 
   #renderNoTripPointComponent = () => {
     this.#noTripPointComponent = new NoTripPointView({
-      filterType: this.#currentFilterType
+      filterType: this.filter
     });
     render(this.#noTripPointComponent, this.#tripEventsElement);
-  };
-
-  #renderTripInfo = () => {
-    render(new TripInfoView({
-      tripPoints: this.points,
-      destinations: this.destinations,
-      offers: this.offers
-    }), this.#tripMainElement, RenderPosition.AFTERBEGIN);
   };
 
   #renderTripEventsListComponent = () => {

@@ -1,4 +1,4 @@
-import FilterPresenter from './presenter/filter-presenter.js';
+import HeaderPresenter from './presenter/header-presenter.js';
 import MainPresenter from './presenter/main-presenter.js';
 import TripPointsModel from './model/trip-points-model.js';
 import OffersModel from './model/offers-model.js';
@@ -10,9 +10,11 @@ const offersModel = new OffersModel();
 const destinationsModel = new DestinationsModel();
 const filterModel = new FilterModel();
 
-const filterPresenter = new FilterPresenter({
-  filterModel,
-  pointsModel: tripPointsModel
+const headerPresenter = new HeaderPresenter({
+  pointsModel: tripPointsModel,
+  offersModel,
+  destinationsModel,
+  filterModel
 });
 
 const mainPresenter = new MainPresenter({
@@ -22,5 +24,5 @@ const mainPresenter = new MainPresenter({
   filterModel
 });
 
-filterPresenter.init();
+headerPresenter.init();
 mainPresenter.init();
