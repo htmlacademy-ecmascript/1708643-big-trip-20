@@ -128,7 +128,7 @@ export default class TripPointPresenter {
       offersList: offers,
       handleFormSubmit: this.#handleFormSubmit,
       handleDeleteClick: this.#handleDeleteClick,
-      handleRollupButtonUpClick: this.#handleRollupButtonUpClick
+      handleCanselClick: this.#handleRollupButtonUpClick
     });
 
 

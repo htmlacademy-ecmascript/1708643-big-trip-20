@@ -12,14 +12,22 @@ export default class HeaderPresenter {
   #filterModel = null;
 
   #tripInfoComponent = null;
+  #buttonComponent = null;
 
   #filterPresenter = null;
 
-  constructor({pointsModel, offersModel, destinationsModel, filterModel}) {
+  constructor({
+    pointsModel,
+    offersModel,
+    destinationsModel,
+    filterModel,
+    buttonComponent
+  }) {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
+    this.#buttonComponent = buttonComponent;
 
     this.#filterPresenter = new FilterPresenter({
       filterModel: this.#filterModel,
@@ -54,6 +62,8 @@ export default class HeaderPresenter {
     if (this.points.length) {
       this.#renderTripInfo();
     }
+
+    this.#renderButton();
   };
 
   #renderTripInfo = () => {
@@ -72,6 +82,10 @@ export default class HeaderPresenter {
 
     replace(this.#tripInfoComponent, prevTripInfoComponent);
     remove(prevTripInfoComponent);
+  };
+
+  #renderButton = () => {
+    render(this.#buttonComponent, this.#tripMainElement);
   };
 
   #handleModelEvent = () => {
