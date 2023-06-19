@@ -3,10 +3,17 @@ import {getRandomPoint} from '../mock/trip-point.js';
 import {POINT_LIST_RENDER_COUNT} from '../const.js';
 
 export default class TripPointsModel extends Observable {
-  #points;
+  #apiService = null;
+  #points = [];
 
-  constructor() {
+  constructor({apiService}) {
     super();
+
+    this.#apiService = apiService;
+
+    this.#apiService.points.then((points) => {
+      console.log(points);
+    });
 
     this.#points = Array.from({length: POINT_LIST_RENDER_COUNT}, getRandomPoint);
   }
