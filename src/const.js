@@ -91,6 +91,12 @@ const FormType = {
   EDITING: 'EDITING'
 };
 
+const PathName = {
+  POINTS: 'points',
+  OFFERS: 'offers',
+  DESTINATIONS: 'destinations'
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_CITY_LIMIT,
@@ -106,5 +112,6 @@ export {
   SortType,
   UserAction,
   UpdateType,
-  FormType
+  FormType,
+  PathName
 };
