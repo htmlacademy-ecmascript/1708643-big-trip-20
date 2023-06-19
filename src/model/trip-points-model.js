@@ -12,7 +12,7 @@ export default class TripPointsModel extends Observable {
     this.#apiService = apiService;
 
     this.#apiService.points.then((points) => {
-      console.log(points);
+      console.log(points.map(this.#adaptToClient));
     });
 
     this.#points = Array.from({length: POINT_LIST_RENDER_COUNT}, getRandomPoint);
@@ -60,5 +60,22 @@ export default class TripPointsModel extends Observable {
     ];
 
     this._notify(updateType);
+  };
+
+  #adaptToClient = (point) => {
+    const adaptedPoint = {
+      ...point,
+      basePrice: point['base_price'],
+      dateFrom: point['date_from'] ?? new Date(point['date_from']),
+      dateTo: point['date_to'] ?? new Date(point['date_to']),
+      isFavorite: point['is_favorite'],
+    };
+
+    delete adaptedPoint['base_price'];
+    delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
+
+    return adaptedPoint;
   };
 }
