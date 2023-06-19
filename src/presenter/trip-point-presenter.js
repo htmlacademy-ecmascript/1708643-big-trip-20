@@ -120,7 +120,24 @@ export default class TripPointPresenter {
     }
   };
 
-  init(tripPoint) {
+  setAborting() {
+    if (this.#mode === PointMode.DEFAULT) {
+      this.#tripPointComponent.shake();
+      return;
+    }
+
+    const resetFormState = () => {
+      this.#formComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#formComponent.shake(resetFormState);
+  }
+
+  init = (tripPoint) => {
     this.#tripPoint = tripPoint;
 
     const typeOffers = this.#offersModel.getByType(this.#tripPoint.type);
@@ -166,5 +183,5 @@ export default class TripPointPresenter {
 
     remove(prevPointComponent);
     remove(prevFormComponent);
-  }
+  };
 }
