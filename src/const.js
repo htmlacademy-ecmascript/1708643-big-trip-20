@@ -98,6 +98,11 @@ const PathName = {
   DESTINATIONS: 'destinations'
 };
 
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_CITY_LIMIT,
@@ -114,5 +119,6 @@ export {
   UserAction,
   UpdateType,
   FormType,
-  PathName
+  PathName,
+  TimeLimit
 };
