@@ -38,7 +38,7 @@ const createFormHeaderTemplate = (point, destinationList, destination, formType)
 
   const typeName = type ? type : TRIP_TYPES[0];
 
-  const destinationName = destination.name ? destination.name : '';
+  const destinationName = destination?.name ? destination.name : '';
 
   return `<header class="event__header">
     <div class="event__type-wrapper">

@@ -99,9 +99,9 @@ export default class MainPresenter {
   };
 
   #clearContent = ({resetSortType = false} = {}) => {
-    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
+    this.#newPointPresenter.destroy();
 
     remove(this.#sortComponent);
     if (this.#noTripPointComponent) {
@@ -177,8 +177,8 @@ export default class MainPresenter {
   };
 
   #handleModeChange = () => {
-    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
+    this.#newPointPresenter.destroy();
   };
 
   #handleSortTypeChange = (sortType) => {
