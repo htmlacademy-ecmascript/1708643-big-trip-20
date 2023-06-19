@@ -14,6 +14,16 @@ const TRIP_TYPES = [
   'restaurant'
 ];
 
+const EMPTY_POINT = {
+  'base_price': 0,
+  'date_from': null,
+  'date_to': null,
+  'destination': null,
+  'is_favorite': false,
+  'offers': [],
+  'type': TRIP_TYPES[0],
+};
+
 const MSEC_IN_SEC = 1000;
 const SEC_IN_MIN = 60;
 const MIN_IN_HOUR = 60;
@@ -45,29 +55,47 @@ const FilterType = {
 };
 
 const FilterStubText = {
-  EVERYTHING: 'Click New Event to create your first point',
-  FUTURE: 'There are no future events now',
-  PRESENT: 'There are no present events now',
-  PAST: 'There are no past events now'
+  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
+  [FilterType.FUTURE]: 'There are no future events now',
+  [FilterType.PRESENT]: 'There are no present events now',
+  [FilterType.PAST]: 'There are no past events now'
 };
 
 const PointMode = {
   DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING',
+  EDITING: 'EDITING'
 };
 
 const SortType = {
-  DAY: 'DAY',
-  PRICE: 'PRICE',
-  TIME: 'TIME',
-  EVENT: 'EVENT',
-  OFFERS: 'OFFERS'
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'
+};
+
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT'
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR'
+};
+
+const FormType = {
+  CREATING: 'CREATING',
+  EDITING: 'EDITING'
 };
 
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_CITY_LIMIT,
   TRIP_TYPES,
+  EMPTY_POINT,
   DatetimeFormat,
   DurationFormat,
   MSEC_IN_HOUR,
@@ -75,5 +103,8 @@ export {
   FilterType,
   FilterStubText,
   PointMode,
-  SortType
+  SortType,
+  UserAction,
+  UpdateType,
+  FormType
 };

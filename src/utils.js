@@ -1,4 +1,4 @@
-import {MSEC_IN_HOUR, MSEC_IN_DAY, DurationFormat} from './const.js';
+import {MSEC_IN_HOUR, MSEC_IN_DAY, DurationFormat, FilterType} from './const.js';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -63,6 +63,13 @@ const isTripPointInPresent = (dateFrom, dateTo) =>
 const isTripPointInPast = (dateTo) =>
   dateTo && dayjs(dateTo).isBefore(dayjs());
 
+const getFilters = () => ({
+  [FilterType.EVERYTHING]: (points) => points,
+  [FilterType.FUTURE]: (points) => points.filter((point) => isTripPointInFuture(point.date_from)),
+  [FilterType.PRESENT]: (points) => points.filter((point) => isTripPointInPresent(point.date_from, point.date_to)),
+  [FilterType.PAST]: (points) => points.filter((point) => isTripPointInPast(point.date_to))
+});
+
 const comparePointsByDate = (firstPoint, secondPoint) => {
   const firstDate = dayjs(firstPoint.date_from);
   const secondDate = dayjs(secondPoint.date_from);
@@ -85,8 +92,11 @@ const comparePointsByTime = (firstPoint, secondPoint) => {
   return secondDuration - firstDuration;
 };
 
-const updateItem = (items, update) =>
-  items.map((item) => item.id === update.id ? update : item);
+const isDateEqual = (firstDate, secondDate) =>
+  dayjs(firstDate).isSame(secondDate, 'm');
+
+const isPriceEqual = (firstPrice, secondPrice) =>
+  firstPrice === secondPrice;
 
 export {
   comparePointsByDate,
@@ -94,10 +104,12 @@ export {
   comparePointsByTime,
   convertToTitleCase,
   convertKeysToCamelCase,
+  getFilters,
   formatDate,
   getDuration,
   isTripPointInFuture,
   isTripPointInPresent,
   isTripPointInPast,
-  updateItem
+  isDateEqual,
+  isPriceEqual
 };

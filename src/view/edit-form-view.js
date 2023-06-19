@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import {DatetimeFormat, TRIP_TYPES} from '../const.js';
+import {DatetimeFormat, TRIP_TYPES, FormType, EMPTY_POINT} from '../const.js';
 import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
 import flatpickr from 'flatpickr';
 
@@ -17,7 +17,20 @@ const createDestinationOptionsTemplate = (destinations) =>
   destinations.map((destination) =>
     `<option value="${destination.name}"></option>`).join('');
 
-const createFormHeaderTemplate = (point, destinationList, destination) => {
+const createRollupButtonTemplate = (type) =>
+  type === FormType.EDITING ?
+    '<button class="event__rollup-btn" type="button"/>' :
+    '';
+
+const createFormButtonsTemplate = (type) => {
+  const buttonText = type === FormType.CREATING ? 'Cansel' : 'Delete';
+
+  return `<button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+  <button class="event__reset-btn" type="reset">${buttonText}</button>
+  ${createRollupButtonTemplate(type)}`;
+};
+
+const createFormHeaderTemplate = (point, destinationList, destination, formType) => {
   const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
 
   const startDatetime = dateFrom ? formatDate(dateFrom, DatetimeFormat.FORM_DATETIME) : '';
@@ -25,7 +38,7 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
 
   const typeName = type ? type : TRIP_TYPES[0];
 
-  const destinationName = destination.name ? destination.name : '';
+  const destinationName = destination?.name ? destination.name : '';
 
   return `<header class="event__header">
     <div class="event__type-wrapper">
@@ -69,11 +82,7 @@ const createFormHeaderTemplate = (point, destinationList, destination) => {
       <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
     </div>
 
-    <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Delete</button>
-    <button class="event__rollup-btn" type="button">
-      <span class="visually-hidden">Open event</span>
-    </button>
+    ${createFormButtonsTemplate(formType)}
   </header>`;
 };
 
@@ -129,12 +138,12 @@ const createFormDetailsTemplate = (point, offersList, destination) => {
   </section>`;
 };
 
-const createEditFormTemplate = (point, destinationList, offersList) => {
+const createEditFormTemplate = (point, destinationList, offersList, type) => {
   const destination = destinationList.find((el) => el.id === point.destination);
 
   return `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
-      ${createFormHeaderTemplate(point, destinationList, destination)}
+      ${createFormHeaderTemplate(point, destinationList, destination, type)}
       ${createFormDetailsTemplate(point, offersList, destination)}
     </form>
   </li>`;
@@ -144,17 +153,22 @@ export default class EditFormView extends AbstractStatefulView {
   #destinationList = null;
   #offersList = null;
 
+  #type = null;
+
   #handleFormSubmit = null;
-  #handleRollupButtonClick = null;
+  #handleDeleteClick = null;
+  #handleCanselClick = null;
 
   #datepickers = null;
 
   constructor({
-    tripPoint,
+    tripPoint = EMPTY_POINT,
     destinationList,
     offersList,
+    type = FormType.EDITING,
     handleFormSubmit,
-    handleRollupButtonUpClick
+    handleDeleteClick,
+    handleCanselClick
   }) {
     super();
 
@@ -162,8 +176,11 @@ export default class EditFormView extends AbstractStatefulView {
     this.#destinationList = destinationList;
     this.#offersList = offersList;
 
+    this.#type = type;
+
     this.#handleFormSubmit = handleFormSubmit;
-    this.#handleRollupButtonClick = handleRollupButtonUpClick;
+    this.#handleDeleteClick = handleDeleteClick;
+    this.#handleCanselClick = handleCanselClick;
 
     this._restoreHandlers();
   }
@@ -173,6 +190,7 @@ export default class EditFormView extends AbstractStatefulView {
       this._state,
       this.#destinationList,
       this.#offersList,
+      this.#type
     );
   }
 
@@ -185,8 +203,6 @@ export default class EditFormView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#rollupButtonClickHandler);
     this.element.querySelector('.event__type-group')
       .addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination')
@@ -195,6 +211,16 @@ export default class EditFormView extends AbstractStatefulView {
       .addEventListener('change', this.#priceChangeHandler);
     this.element.querySelectorAll('.event__offer-checkbox')
       .forEach((offer) => offer.addEventListener('change', this.#offerChangeHandler));
+
+    if (this.#type === FormType.CREATING) {
+      this.element.querySelector('.event__reset-btn')
+        .addEventListener('click', this.#formCanselClickHandler);
+    } else {
+      this.element.querySelector('.event__reset-btn')
+        .addEventListener('click', this.#formDeleteClickHandler);
+      this.element.querySelector('.event__rollup-btn')
+        .addEventListener('click', this.#formCanselClickHandler);
+    }
 
     this.#setDatepickers();
   };
@@ -229,9 +255,14 @@ export default class EditFormView extends AbstractStatefulView {
     this.#handleFormSubmit(EditFormView.parseStateToPoint(this._state));
   };
 
-  #rollupButtonClickHandler = (evt) => {
+  #formDeleteClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleRollupButtonClick();
+    this.#handleDeleteClick(EditFormView.parseStateToPoint(this._state));
+  };
+
+  #formCanselClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleCanselClick();
   };
 
   #typeChangeHandler = (evt) => {
