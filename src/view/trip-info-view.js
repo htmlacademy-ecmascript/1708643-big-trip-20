@@ -3,8 +3,8 @@ import {DatetimeFormat, TRIP_CITY_LIMIT} from '../const.js';
 import {formatDate} from '../utils.js';
 
 const createTripInfoMainTemplate = (points, destinations) => {
-  const startDate = formatDate(points[0]['date_from'], DatetimeFormat.SHORT_DATE);
-  const endDate = formatDate(points[points.length - 1]['date_to'], DatetimeFormat.SHORT_DATE);
+  const startDate = formatDate(points[0].dateFrom, DatetimeFormat.SHORT_DATE);
+  const endDate = formatDate(points[points.length - 1].dateTo, DatetimeFormat.SHORT_DATE);
 
   let destinationNames = points.map((point) => destinations.find((el) => point.destination === el.id).name);
   destinationNames = destinationNames.filter((el, i, array) => array[i] !== array[i + 1]);
@@ -27,7 +27,7 @@ const createTripInfoCostTemplate = (points, offers) => {
   let cost = 0;
 
   points.map((point) => {
-    cost += point['base_price'] ? point['base_price'] : 0;
+    cost += point.basePrice ? point.basePrice : 0;
     const offersList = offers.find((el) => el.type === point.type).offers;
     point.offers.map((pointOfferId) => {
       const offer = offersList.find((el) => el.id === pointOfferId);

@@ -1,6 +1,4 @@
 import Observable from '../framework/observable.js';
-import {getRandomPoint} from '../mock/trip-point.js';
-import {POINT_LIST_RENDER_COUNT} from '../const.js';
 
 export default class TripPointsModel extends Observable {
   #apiService = null;
@@ -10,17 +8,20 @@ export default class TripPointsModel extends Observable {
     super();
 
     this.#apiService = apiService;
-
-    this.#apiService.points.then((points) => {
-      console.log(points.map(this.#adaptToClient));
-    });
-
-    this.#points = Array.from({length: POINT_LIST_RENDER_COUNT}, getRandomPoint);
   }
 
   get points() {
     return this.#points;
   }
+
+  init = async () => {
+    try {
+      const points = await this.#apiService.points;
+      this.#points = points.map(this.#adaptToClient);
+    } catch (err) {
+      this.#points = [];
+    }
+  };
 
   updatePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);

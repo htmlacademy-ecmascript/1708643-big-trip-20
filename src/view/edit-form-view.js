@@ -1,6 +1,6 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import {DatetimeFormat, TRIP_TYPES, FormType, EMPTY_POINT} from '../const.js';
-import {convertToTitleCase, convertKeysToCamelCase, formatDate} from '../utils.js';
+import {convertToTitleCase, formatDate} from '../utils.js';
 import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
@@ -31,7 +31,7 @@ const createFormButtonsTemplate = (type) => {
 };
 
 const createFormHeaderTemplate = (point, destinationList, destination, formType) => {
-  const {basePrice, dateFrom, dateTo, type} = convertKeysToCamelCase(point);
+  const {basePrice, dateFrom, dateTo, type} = point;
 
   const startDatetime = dateFrom ? formatDate(dateFrom, DatetimeFormat.FORM_DATETIME) : '';
   const endDatetime = dateTo ? formatDate(dateTo, DatetimeFormat.FORM_DATETIME) : '';
@@ -268,8 +268,8 @@ export default class EditFormView extends AbstractStatefulView {
   #typeChangeHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({
-      'type': evt.target.value,
-      'offers': []
+      type: evt.target.value,
+      offers: []
     });
   };
 
@@ -278,7 +278,7 @@ export default class EditFormView extends AbstractStatefulView {
     const destination = this.#destinationList.find((el) => el.name === evt.target.value);
     if (destination) {
       this.updateElement({
-        'destination': destination.id
+        destination: destination.id
       });
     }
   };
@@ -287,7 +287,7 @@ export default class EditFormView extends AbstractStatefulView {
     evt.preventDefault();
     const price = parseInt(evt.target.value, 10) || 0;
     this.updateElement({
-      'base_price': price
+      basePrice: price
     });
   };
 
@@ -297,20 +297,20 @@ export default class EditFormView extends AbstractStatefulView {
 
     if (evt.target.checked) {
       this._setState({
-        'offers': [...offers, Number(evt.target.id)]
+        offers: [...offers, Number(evt.target.id)]
       });
     } else {
       const updatedOffers = offers.filter((offer) => offer !== Number(evt.target.id));
       this._setState({
-        'offers': updatedOffers
+        offers: updatedOffers
       });
     }
   };
 
   #dateChangeHandler = ([userDate], dateStr, datepicker) => {
     const fieldName = datepicker.element.name === 'event-start-time'
-      ? 'date_from'
-      : 'date_to';
+      ? 'dateFrom'
+      : 'dateTo';
 
     this._setState({
       [fieldName]: formatDate(userDate)

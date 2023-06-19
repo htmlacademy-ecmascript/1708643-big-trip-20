@@ -28,4 +28,7 @@ const pagePresenter = new PagePresenter({
   filterModel
 });
 
+pointsModel.init();
+offersModel.init();
+destinationsModel.init();
 pagePresenter.init();
