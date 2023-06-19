@@ -81,7 +81,6 @@ export default class TripPointPresenter {
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       tripPoint
     );
-    this.#replaceFormToTripPoint();
   };
 
   #handleDeleteClick = (tripPoint) => {
@@ -100,6 +99,24 @@ export default class TripPointPresenter {
   resetView = () => {
     if (this.#mode !== PointMode.DEFAULT) {
       this.#replaceFormToTripPoint();
+    }
+  };
+
+  setSaving = () => {
+    if (this.#mode === PointMode.EDITING) {
+      this.#formComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  };
+
+  setDeleting = () => {
+    if (this.#mode === PointMode.EDITING) {
+      this.#formComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
     }
   };
 
@@ -143,6 +160,8 @@ export default class TripPointPresenter {
 
     if (this.#mode === PointMode.EDITING) {
       replace(this.#formComponent, prevFormComponent);
+      replace(this.#tripPointComponent, prevFormComponent);
+      this.#mode = PointMode.DEFAULT;
     }
 
     remove(prevPointComponent);
