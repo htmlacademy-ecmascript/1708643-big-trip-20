@@ -2,6 +2,7 @@ import {render, remove} from '../framework/render.js';
 import SortView from './../view/sort-view.js';
 import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
+import LoadingView from './../view/loading-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import {comparePointsByPrice, comparePointsByTime, comparePointsByDate, getFilters} from '../utils.js';
@@ -11,6 +12,7 @@ export default class MainPresenter {
   #tripEventsElement = document.querySelector('.trip-events');
 
   #contentComponent = new TripEventsListView();
+  #loadingComponent = new LoadingView();
   #sortComponent = null;
   #noTripPointComponent = null;
 
@@ -21,6 +23,7 @@ export default class MainPresenter {
 
   #pointPresenters = new Map();
   #currentSortType = SortType.DAY;
+  #isLoading = true;
 
   #newPointPresenter = null;
 
@@ -87,6 +90,11 @@ export default class MainPresenter {
   };
 
   #renderContent = () => {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     if (!this.points.length) {
       this.#renderNoTripPointComponent();
       return;
@@ -119,6 +127,10 @@ export default class MainPresenter {
     });
     render(this.#noTripPointComponent, this.#tripEventsElement);
   };
+
+  #renderLoading() {
+    render(this.#loadingComponent, this.#tripEventsElement);
+  }
 
   #renderTripEventsListComponent = () => {
     render(this.#contentComponent, this.#tripEventsElement);
@@ -171,6 +183,11 @@ export default class MainPresenter {
         break;
       case UpdateType.MAJOR:
         this.#clearContent({resetSortType: true});
+        this.#renderContent();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
         this.#renderContent();
         break;
     }
