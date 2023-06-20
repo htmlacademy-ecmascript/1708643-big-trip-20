@@ -15,11 +15,11 @@ const TRIP_TYPES = [
 ];
 
 const EMPTY_POINT = {
-  'base_price': 0,
-  'date_from': null,
-  'date_to': null,
+  'basePrice': 0,
+  'dateFrom': null,
+  'dateTo': null,
   'destination': null,
-  'is_favorite': false,
+  'isFavorite': false,
   'offers': [],
   'type': TRIP_TYPES[0],
 };
@@ -83,12 +83,19 @@ const UserAction = {
 const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
-  MAJOR: 'MAJOR'
+  MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 const FormType = {
   CREATING: 'CREATING',
   EDITING: 'EDITING'
+};
+
+const PathName = {
+  POINTS: 'points',
+  OFFERS: 'offers',
+  DESTINATIONS: 'destinations'
 };
 
 export {
@@ -106,5 +113,6 @@ export {
   SortType,
   UserAction,
   UpdateType,
-  FormType
+  FormType,
+  PathName
 };

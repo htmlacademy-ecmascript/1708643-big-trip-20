@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {DatetimeFormat} from '../const.js';
-import {convertKeysToCamelCase, formatDate, getDuration} from '../utils.js';
+import {formatDate, getDuration} from '../utils.js';
 
 const createOffersListTemplate = (pointOffers, offers) =>
   pointOffers.map((pointOfferId) => {
@@ -13,7 +13,7 @@ const createOffersListTemplate = (pointOffers, offers) =>
   }).join('');
 
 const createTripPointTemplate = (point, offersList, destination) => {
-  const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = convertKeysToCamelCase(point);
+  const {basePrice, dateFrom, dateTo, isFavorite, type, offers} = point;
 
   const shortDate = formatDate(dateFrom, DatetimeFormat.SHORT_DATE);
 

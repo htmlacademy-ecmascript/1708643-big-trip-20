@@ -1,18 +1,29 @@
 import Observable from '../framework/observable.js';
-import {getDestinations} from '../mock/destination.js';
+import {UpdateType} from '../const.js';
 
 export default class DestinationsModel extends Observable {
-  #destinations;
+  #apiService = null;
+  #destinations = [];
 
-  constructor() {
+  constructor({apiService}) {
     super();
 
-    this.#destinations = getDestinations();
+    this.#apiService = apiService;
   }
 
   get destinations() {
     return this.#destinations;
   }
+
+  init = async () => {
+    try {
+      this.#destinations = await this.#apiService.destinations;
+    } catch (err) {
+      this.#destinations = [];
+    }
+
+    this._notify(UpdateType.INIT);
+  };
 
   getById(id) {
     return this.#destinations.find((destination) => destination.id === id);

@@ -13,14 +13,12 @@ export default class PagePresenter {
 
   #newPointButtonComponent = null;
 
-  constructor({pointsModel, offersModel, destinationsModel, filterModel}) {
+  init = (pointsModel, offersModel, destinationsModel, filterModel) => {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
-  }
 
-  init = () => {
     this.#newPointButtonComponent = new NewPointButtonView({
       handleClick: this.#handleNewPointButtonClick
     });

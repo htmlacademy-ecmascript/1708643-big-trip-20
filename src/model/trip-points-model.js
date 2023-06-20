@@ -1,19 +1,30 @@
 import Observable from '../framework/observable.js';
-import {getRandomPoint} from '../mock/trip-point.js';
-import {POINT_LIST_RENDER_COUNT} from '../const.js';
+import {UpdateType} from '../const.js';
 
 export default class TripPointsModel extends Observable {
-  #points;
+  #apiService = null;
+  #points = [];
 
-  constructor() {
+  constructor({apiService}) {
     super();
 
-    this.#points = Array.from({length: POINT_LIST_RENDER_COUNT}, getRandomPoint);
+    this.#apiService = apiService;
   }
 
   get points() {
     return this.#points;
   }
+
+  init = async () => {
+    try {
+      const points = await this.#apiService.points;
+      this.#points = points.map(this.#adaptToClient);
+    } catch (err) {
+      this.#points = [];
+    }
+
+    this._notify(UpdateType.INIT);
+  };
 
   updatePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
@@ -53,5 +64,22 @@ export default class TripPointsModel extends Observable {
     ];
 
     this._notify(updateType);
+  };
+
+  #adaptToClient = (point) => {
+    const adaptedPoint = {
+      ...point,
+      basePrice: point['base_price'],
+      dateFrom: point['date_from'] ?? new Date(point['date_from']),
+      dateTo: point['date_to'] ?? new Date(point['date_to']),
+      isFavorite: point['is_favorite'],
+    };
+
+    delete adaptedPoint['base_price'];
+    delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
+
+    return adaptedPoint;
   };
 }
