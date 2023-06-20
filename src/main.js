@@ -30,5 +30,4 @@ const loadData = async () => {
 };
 
 loadData();
-
 pagePresenter.init(pointsModel, offersModel, destinationsModel, filterModel);
