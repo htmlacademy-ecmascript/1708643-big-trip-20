@@ -84,7 +84,8 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
-  INIT: 'INIT'
+  INIT: 'INIT',
+  ERROR: 'ERROR'
 };
 
 const FormType = {
@@ -96,6 +97,18 @@ const PathName = {
   POINTS: 'points',
   OFFERS: 'offers',
   DESTINATIONS: 'destinations'
+};
+
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+const HTTPMethod = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE'
 };
 
 export {
@@ -114,5 +127,7 @@ export {
   UserAction,
   UpdateType,
   FormType,
-  PathName
+  PathName,
+  TimeLimit,
+  HTTPMethod
 };
