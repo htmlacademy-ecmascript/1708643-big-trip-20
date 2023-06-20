@@ -297,7 +297,7 @@ export default class EditFormView extends AbstractStatefulView {
 
     if (evt.target.checked) {
       this._setState({
-        offers: [...offers, Number(evt.target.id)]
+        offers: [...offers, evt.target.id]
       });
     } else {
       const updatedOffers = offers.filter((offer) => offer !== Number(evt.target.id));

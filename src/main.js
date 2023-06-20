@@ -21,14 +21,13 @@ const destinationsModel = new DestinationsModel({
 });
 const filterModel = new FilterModel();
 
-const pagePresenter = new PagePresenter({
-  pointsModel,
-  offersModel,
-  destinationsModel,
-  filterModel
-});
+const pagePresenter = new PagePresenter();
 
-pointsModel.init();
-offersModel.init();
-destinationsModel.init();
-pagePresenter.init();
+const loadData = async () => {
+  await offersModel.init();
+  await destinationsModel.init();
+  await pointsModel.init();
+};
+
+loadData();
+pagePresenter.init(pointsModel, offersModel, destinationsModel, filterModel);

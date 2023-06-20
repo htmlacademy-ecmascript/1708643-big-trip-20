@@ -15,11 +15,11 @@ const TRIP_TYPES = [
 ];
 
 const EMPTY_POINT = {
-  'base_price': 0,
-  'date_from': null,
-  'date_to': null,
+  'basePrice': 0,
+  'dateFrom': null,
+  'dateTo': null,
   'destination': null,
-  'is_favorite': false,
+  'isFavorite': false,
   'offers': [],
   'type': TRIP_TYPES[0],
 };
