@@ -120,7 +120,7 @@ export default class TripPointPresenter {
     }
   };
 
-  setAborting() {
+  setAborting = () => {
     if (this.#mode === PointMode.DEFAULT) {
       this.#tripPointComponent.shake();
       return;
@@ -135,7 +135,7 @@ export default class TripPointPresenter {
     };
 
     this.#formComponent.shake(resetFormState);
-  }
+  };
 
   init = (tripPoint) => {
     this.#tripPoint = tripPoint;
@@ -165,7 +165,6 @@ export default class TripPointPresenter {
       handleCanselClick: this.#handleRollupButtonUpClick
     });
 
-
     if (prevPointComponent === null || prevFormComponent === null) {
       render(this.#tripPointComponent, this.#parentContainer);
       return;
@@ -176,7 +175,6 @@ export default class TripPointPresenter {
     }
 
     if (this.#mode === PointMode.EDITING) {
-      replace(this.#formComponent, prevFormComponent);
       replace(this.#tripPointComponent, prevFormComponent);
       this.#mode = PointMode.DEFAULT;
     }

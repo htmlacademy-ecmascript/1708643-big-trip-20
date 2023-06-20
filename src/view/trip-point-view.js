@@ -1,6 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {DatetimeFormat} from '../const.js';
 import {formatDate, getDuration} from '../utils.js';
+import he from 'he';
 
 const createOffersListTemplate = (pointOffers, offers) =>
   pointOffers.map((pointOfferId) => {
@@ -26,7 +27,7 @@ const createTripPointTemplate = (point, offersList, destination) => {
 
   const duration = getDuration(dateFrom, dateTo);
 
-  const destinationName = destination.name;
+  const destinationName = he.encode(destination.name);
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'

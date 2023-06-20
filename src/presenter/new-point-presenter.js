@@ -15,7 +15,7 @@ export default class NewPointPresenter {
     this.#handleDestroy = handleDestroy;
   }
 
-  init(destinations, offers) {
+  init = (destinations, offers) => {
     if (this.#formComponent !== null) {
       return;
     }
@@ -31,7 +31,7 @@ export default class NewPointPresenter {
     render(this.#formComponent, this.#parentContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
-  }
+  };
 
   destroy = () => {
     if (this.#formComponent === null) {
@@ -69,10 +69,7 @@ export default class NewPointPresenter {
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {
-        id: crypto.randomUUID(),
-        ...point
-      },
+      point,
     );
   };
 

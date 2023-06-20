@@ -134,9 +134,9 @@ export default class MainPresenter {
     render(this.#noTripPointComponent, this.#tripEventsElement);
   };
 
-  #renderLoading() {
+  #renderLoading = () => {
     render(this.#loadingComponent, this.#tripEventsElement);
-  }
+  };
 
   #renderTripEventsListComponent = () => {
     render(this.#contentComponent, this.#tripEventsElement);
@@ -171,7 +171,7 @@ export default class MainPresenter {
       case UserAction.UPDATE_POINT:
         this.#pointPresenters.get(update.id).setSaving();
         try {
-          await this.#pointsModel.updateTask(updateType, update);
+          await this.#pointsModel.updatePoint(updateType, update);
         } catch(err) {
           this.#pointPresenters.get(update.id).setAborting();
         }
@@ -179,7 +179,7 @@ export default class MainPresenter {
       case UserAction.ADD_POINT:
         this.#newPointPresenter.setSaving();
         try {
-          await this.#pointsModel.addTask(updateType, update);
+          await this.#pointsModel.addPoint(updateType, update);
         } catch(err) {
           this.#newPointPresenter.setAborting();
         }

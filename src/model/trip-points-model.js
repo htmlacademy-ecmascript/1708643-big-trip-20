@@ -72,7 +72,7 @@ export default class TripPointsModel extends Observable {
     }
 
     try {
-      await this.#apiService.deletepoint(update);
+      await this.#apiService.deletePoint(update);
 
       this.#points = [
         ...this.#points.slice(0, index),

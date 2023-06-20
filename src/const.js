@@ -15,11 +15,11 @@ const TRIP_TYPES = [
 ];
 
 const EMPTY_POINT = {
-  'base_price': 0,
-  'date_from': null,
-  'date_to': null,
+  'basePrice': 0,
+  'dateFrom': null,
+  'dateTo': null,
   'destination': null,
-  'is_favorite': false,
+  'isFavorite': false,
   'offers': [],
   'type': TRIP_TYPES[0],
 };
@@ -103,6 +103,13 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
+const HTTPMethod = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+
 export {
   POINT_LIST_RENDER_COUNT,
   TRIP_CITY_LIMIT,
@@ -120,5 +127,6 @@ export {
   UpdateType,
   FormType,
   PathName,
-  TimeLimit
+  TimeLimit,
+  HTTPMethod
 };

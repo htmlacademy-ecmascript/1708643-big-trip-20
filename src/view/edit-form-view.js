@@ -2,6 +2,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import {DatetimeFormat, TRIP_TYPES, FormType, EMPTY_POINT} from '../const.js';
 import {convertToTitleCase, formatDate} from '../utils.js';
 import flatpickr from 'flatpickr';
+import he from 'he';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -17,7 +18,7 @@ const createEventTypeDropdownTemplate = (point) => {
 
 const createDestinationOptionsTemplate = (destinations) =>
   destinations.map((destination) =>
-    `<option value="${destination.name}"></option>`).join('');
+    `<option value="${he.encode(destination.name)}"></option>`).join('');
 
 const createRollupButtonTemplate = (type, point) => {
   const {isDisabled} = point;
@@ -34,7 +35,7 @@ const createFormButtonsTemplate = (type, point) => {
   <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>
     ${isDeleting ? 'Deleting...' : `${buttonText}`}
   </button >
-  ${createRollupButtonTemplate(type)}`;
+  ${createRollupButtonTemplate(type, point)}`;
 };
 
 const createFormHeaderTemplate = (point, destinationList, destination, formType) => {
@@ -45,7 +46,7 @@ const createFormHeaderTemplate = (point, destinationList, destination, formType)
 
   const typeName = type ? type : TRIP_TYPES[0];
 
-  const destinationName = destination?.name ? destination.name : '';
+  const destinationName = destination?.name ? he.encode(destination.name) : '';
 
   return `<header class="event__header">
     <div class="event__type-wrapper">
@@ -89,7 +90,7 @@ const createFormHeaderTemplate = (point, destinationList, destination, formType)
       <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
     </div>
 
-    ${createFormButtonsTemplate(formType)}
+    ${createFormButtonsTemplate(formType, point)}
   </header>`;
 };
 
@@ -241,13 +242,13 @@ export default class EditFormView extends AbstractStatefulView {
     this.#datepickers = [...dateElements].map((element, id) => {
       const minDate = id ? dateElements[0].value : null;
       const maxDate = id ? null : dateElements[1].value;
+      const defaultDate = id ? dateElements[1].value : dateElements[0].value;
 
       return flatpickr(
         element,
         {
-          allowInput: true,
-          defaultDate: element.value,
           dateFormat: DatetimeFormat.PICKER_DATETIME,
+          defaultDate,
           enableTime: true,
           minDate,
           maxDate,
@@ -307,7 +308,7 @@ export default class EditFormView extends AbstractStatefulView {
 
     if (evt.target.checked) {
       this._setState({
-        offers: [...offers, Number(evt.target.id)]
+        offers: [...offers, evt.target.id]
       });
     } else {
       const updatedOffers = offers.filter((offer) => offer !== Number(evt.target.id));
@@ -325,6 +326,8 @@ export default class EditFormView extends AbstractStatefulView {
     this._setState({
       [fieldName]: formatDate(userDate)
     });
+
+    this.#setDatepickers();
   };
 
   static parsePointToState = (point) => ({
