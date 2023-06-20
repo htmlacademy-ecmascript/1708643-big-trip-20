@@ -3,6 +3,7 @@ import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import SortView from './../view/sort-view.js';
 import TripEventsListView from './../view/trip-events-list-view.js';
 import NoTripPointView from './../view/no-trip-point-view.js';
+import ServerErrorView from '../view/server-error-view.js';
 import LoadingView from './../view/loading-view.js';
 import TripPointPresenter from './trip-point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
@@ -19,6 +20,7 @@ export default class MainPresenter {
 
   #contentComponent = new TripEventsListView();
   #loadingComponent = new LoadingView();
+  #serverErrorComponent = new ServerErrorView();
   #sortComponent = null;
   #noTripPointComponent = null;
 
@@ -32,18 +34,21 @@ export default class MainPresenter {
   #isLoading = true;
 
   #newPointPresenter = null;
+  #handleServerError = null;
 
   constructor({
     pointsModel,
     offersModel,
     destinationsModel,
     filterModel,
-    handleNewPointDestroy
+    handleNewPointDestroy,
+    handleServerError
   }) {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
+    this.#handleServerError = handleServerError;
 
     this.#newPointPresenter = new NewPointPresenter({
       parentContainer: this.#contentComponent.element,
@@ -134,6 +139,10 @@ export default class MainPresenter {
     render(this.#noTripPointComponent, this.#tripEventsElement);
   };
 
+  #renderServerErrorComponent = () => {
+    render(this.#serverErrorComponent, this.#tripEventsElement);
+  };
+
   #renderLoading = () => {
     render(this.#loadingComponent, this.#tripEventsElement);
   };
@@ -214,6 +223,12 @@ export default class MainPresenter {
         this.#isLoading = false;
         remove(this.#loadingComponent);
         this.#renderContent();
+        break;
+      case UpdateType.ERROR:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderServerErrorComponent();
+        this.#handleServerError();
         break;
     }
   };

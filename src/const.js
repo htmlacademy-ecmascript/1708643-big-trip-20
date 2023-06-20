@@ -84,7 +84,8 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
-  INIT: 'INIT'
+  INIT: 'INIT',
+  ERROR: 'ERROR'
 };
 
 const FormType = {
@@ -107,7 +108,7 @@ const HTTPMethod = {
   GET: 'GET',
   PUT: 'PUT',
   POST: 'POST',
-  DELETE: 'DELETE',
+  DELETE: 'DELETE'
 };
 
 export {

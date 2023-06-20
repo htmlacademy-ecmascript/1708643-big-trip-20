@@ -36,11 +36,16 @@ export default class PagePresenter {
       offersModel: this.#offersModel,
       destinationsModel: this.#destinationsModel,
       filterModel: this.#filterModel,
-      handleNewPointDestroy: this.#handleNewPointFormClose
+      handleNewPointDestroy: this.#handleNewPointFormClose,
+      handleServerError: this.#blockNewPointButton
     });
 
     this.#headerPresenter.init();
     this.#mainPresenter.init();
+  };
+
+  #blockNewPointButton = () => {
+    this.#newPointButtonComponent.element.disabled = true;
   };
 
   #handleNewPointFormClose = () => {
@@ -49,6 +54,6 @@ export default class PagePresenter {
 
   #handleNewPointButtonClick = () => {
     this.#mainPresenter.createPoint();
-    this.#newPointButtonComponent.element.disabled = true;
+    this.#blockNewPointButton();
   };
 }
